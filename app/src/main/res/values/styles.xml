@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="roundedCornerTextField" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopEnd">28dp</item>
+        <item name="boxCornerRadiusBottomEnd">28dp</item>
+        <item name="boxCornerRadiusTopStart">28dp</item>
+        <item name="boxCornerRadiusBottomStart">28dp</item>
+    </style>
+
+    <style name="shapeAppearanceCircular">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="FullScreenDialog" parent="Base.Theme.AndroidEp7">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:opacity">opaque</item>
+    </style>
+
+</resources>

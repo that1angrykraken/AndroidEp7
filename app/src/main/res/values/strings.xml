@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">App Tracking</string>
+    <string name="welcome">Welcome.</string>
+    <string name="login_tip">Sign yourself in using a registered username and password.</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="dont_have_an_account">Don\'t have an account?</string>
+    <string name="create_one">Create one.</string>
+    <string name="login">Login</string>
+    <string name="terms_and_services_notice">By clicking <b>Create</b>, you agree to our <b>terms and services.</b></string>
+    <string name="create">Create</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="go_to_login">Login.</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="gender">Gender</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="email_address">Email address</string>
+    <string name="name_of_university">Name of University</string>
+    <string name="year">Year</string>
+    <string name="re_enter_password">Re-enter password</string>
+    <string name="create_new_account">Create new account.</string>
+    <string name="information_required">Please complete the form below.</string>
+    <string name="help_text_username">At least 6 characters\n(must not contain Space or special characters)</string>
+    <string name="help_text_password">At least 8 characters</string>
+    <string name="forgot_your_password_try">"Forgot your password? Try "</string>
+    <string name="reset_password">reset password.</string>
+    <string name="please_wait">Please wait..</string>
+    <string name="fetching_current_user">Fetching current user..</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logging_in">Logging in..</string>
+    <string name="invalid_username_or_password">Invalid username or password</string>
+    <string name="processing">Processing..</string>
+    <string name="dialog_negative_button">Cancel</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="genders">
+        <item>Male</item>
+        <item>Female</item>
+    </array>
+    <array name="number_of_year_at_university">
+        <item>First year</item>
+        <item>Second year</item>
+        <item>Third year</item>
+        <item>Fourth year</item>
+        <item>Fifth year</item>
+    </array>
+</resources>
