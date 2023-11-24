@@ -1,17 +1,14 @@
 package seamonster.kraken.androidep7.ui.user
 
 import com.airbnb.mvrx.Async
-import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
-import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.launch
 import retrofit2.Response
 import seamonster.kraken.androidep7.data.models.Page
 import seamonster.kraken.androidep7.data.models.User
@@ -38,19 +35,15 @@ class UserViewModel @AssistedInject constructor(
         }
 
         withState { state ->
-            viewModelScope.launch {
-                try {
-                    val response = repository.fetchSearchResult("", state.pageIndex)
-                    if (response.isSuccessful && response.body() != null){
-                        setState { copy(searchResult = Success(response.body()!!)) }
-                    } else {
-                        val message = response.errorBody().toMessage()
-                        setState { copy(searchResult = Fail(Throwable(message))) }
-                    }
-                } catch (e: Exception) {
-                    setState { copy(searchResult = Fail(e)) }
+            suspend {
+                val response = repository.fetchSearchResult("", state.pageIndex)
+                if (response.isSuccessful && response.body() != null) {
+                    response.body()!!
+                } else {
+                    val message = response.errorBody().toMessage()
+                    throw Throwable(message)
                 }
-            }
+            }.execute { copy(searchResult = it) }
         }
     }
 
@@ -64,20 +57,14 @@ class UserViewModel @AssistedInject constructor(
 
     private fun executionScope(scope: suspend () -> Response<User>) {
         setState { copy(userAction = Loading()) }
-
-        viewModelScope.launch {
-            try {
-                val response = scope.invoke()
-                if (response.isSuccessful) {
-                    setState { copy(userAction = Success(response.body())) }
-                } else {
-                    val message = response.errorBody().toMessage()
-                    setState { copy(userAction = Fail(Throwable(message))) }
-                }
-            } catch (e: Exception) {
-                setState { copy(userAction = Fail(e)) }
+        suspend {
+            val response = scope.invoke()
+            if (response.isSuccessful) response.body()
+            else {
+                val message = response.errorBody().toMessage()
+                throw Throwable(message)
             }
-        }
+        }.execute { copy(userAction = it) }
     }
 
     @AssistedFactory

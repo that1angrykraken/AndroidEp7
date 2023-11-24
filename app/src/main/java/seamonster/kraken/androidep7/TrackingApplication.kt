@@ -16,7 +16,6 @@ class TrackingApplication : Application() {
         Mavericks.initialize(this)
         Ipfy.init(this)
         appComponent = DaggerAppComponent.factory().create(this)
-
     }
 }
 

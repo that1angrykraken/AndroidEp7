@@ -35,7 +35,8 @@ class CheckInFragment : BaseFragment(R.layout.fragment_check_in) {
     }
 
     private fun onCheckInStateChanged() = withState(viewModel) { state ->
-        binding.buttonCheckIn.isEnabled = state.shouldCheckIn
+        binding.buttonCheckIn.isEnabled = state.checkIn !is Loading
+        if (!state.shouldCheckIn) return@withState
         when (state.checkIn) {
             is Success -> {
                 viewModel.fetchHistory()

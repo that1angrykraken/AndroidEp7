@@ -30,25 +30,14 @@ class NotificationViewModel @AssistedInject constructor(
     fun fetchAll() {
         setState { copy(notifications = Loading()) }
 
-        val onSuccess: NotificationState.(Response<List<Notification>>) -> NotificationState =
-            {
-                val async = if (it.isSuccessful) {
-                    Success(it.body() ?: emptyList())
-                } else {
-                    val message = it.errorBody().toMessage()
-                    Fail(Throwable(message))
-                }
-                copy(notifications = async)
+        suspend {
+            val response = repository.fetchAll()
+            if (response.isSuccessful && response.body() != null) response.body()!!
+            else {
+                val message = response.errorBody().toMessage()
+                throw Throwable(message)
             }
-
-        suspend { repository.fetchAll() }
-            .execute { response ->
-                when (response) {
-                    is Success -> onSuccess(this@execute, response.invoke())
-                    is Fail -> copy(notifications = Fail(response.error))
-                    else -> this
-                }
-            }
+        }.execute { copy(notifications = it) }
     }
 
     @AssistedFactory

@@ -6,7 +6,7 @@ import seamonster.kraken.androidep7.data.models.*
 
 interface UserApi {
     @POST("public/sign")
-    suspend fun createOrUpdate(@Body user: User): User
+    suspend fun createOrUpdate(@Body user: User): Response<User>
 
     @GET("users/{id}")
     suspend fun getUserById(@Path("id") id: Int): Response<User>
@@ -21,7 +21,7 @@ interface UserApi {
     suspend fun searchByPage(@Body search: Search): Response<Page<User>>
 
     @GET("users/token-device")
-    suspend fun edit(@Query("token-device") tokenDevice: String): User
+    suspend fun edit(@Query("token-device") tokenDevice: String): Response<User>
 
     @POST("users/update-myself")
     suspend fun updateMyself(@Body user: User): Response<User>

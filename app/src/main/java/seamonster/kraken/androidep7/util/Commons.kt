@@ -10,9 +10,17 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import okhttp3.ResponseBody
 import seamonster.kraken.androidep7.data.models.ErrorResponse
+import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
 import java.util.Date
+import java.util.Locale
+
+fun Calendar.format(format: String? = null): String {
+    val dateFormat = SimpleDateFormat(format ?: "HH:mm dd-MM-yyyy", Locale.getDefault())
+    return dateFormat.format(time)
+}
 
 fun ResponseBody?.toMessage(): String? {
     if (this == null) return null

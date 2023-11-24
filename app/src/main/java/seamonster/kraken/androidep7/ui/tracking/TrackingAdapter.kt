@@ -1,5 +1,6 @@
 package seamonster.kraken.androidep7.ui.tracking
 
+import android.animation.LayoutTransition
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -17,14 +18,15 @@ class TrackingAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(tracking: Tracking) = binding.run {
-            binding.tracking = tracking
+            binding.clItemContent.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+            binding.tracking = tracking.copy()
             buttonSaveChanges.setOnClickListener {
                 checkboxEditMode.isChecked = false
                 textInputLayout.editText?.clearFocus()
-                listener.onItemSaveButtonClick(it, tracking)
+                listener.onItemSaveButtonClick(it, binding.tracking!!)
             }
             buttonDelete.setOnClickListener {
-                listener.onItemDeleteButtonClick(it, tracking)
+                listener.onItemDeleteButtonClick(it, binding.tracking!!)
             }
         }
 

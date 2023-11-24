@@ -1,7 +1,6 @@
 package seamonster.kraken.androidep7.ui.tracking
 
 import com.airbnb.mvrx.Async
-import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
@@ -19,7 +18,8 @@ import seamonster.kraken.androidep7.util.toMessage
 
 data class TrackingState(
     val timeline: Async<List<Tracking>> = Uninitialized,
-    val trackingAction: Async<Tracking> = Uninitialized
+    val trackingAction: Async<Tracking> = Uninitialized,
+    val shouldCheckAction: Boolean = false
 ) : MavericksState
 
 class TrackingViewModel @AssistedInject constructor(
@@ -28,7 +28,7 @@ class TrackingViewModel @AssistedInject constructor(
 ) : MavericksViewModel<TrackingState>(state) {
 
     fun fetchAll() {
-        setState { copy(trackingAction = Loading()) }
+        setState { copy(timeline = Loading(), shouldCheckAction = false) }
         suspend {
             val response = repository.getTrackingTimeline()
             if (response.isSuccessful && response.body() != null) response.body()!!
@@ -41,18 +41,12 @@ class TrackingViewModel @AssistedInject constructor(
 
     fun saveTracking(tracking: Tracking) = executionScope { repository.saveTracking(tracking) }
 
-    fun deleteTracking(id: Int?) {
-        if (id == null) {
-            setState { copy(trackingAction = Fail(Throwable("Invalid id!"))) }
-            return
-        }
-        executionScope { repository.deleteTracking(id) }
-    }
+    fun deleteTracking(id: Int) = executionScope { repository.deleteTracking(id) }
 
     fun updateTracking(tracking: Tracking) = executionScope { repository.updateTracking(tracking) }
 
     private fun executionScope(block: suspend () -> Response<Tracking>) {
-        setState { copy(trackingAction = Loading()) }
+        setState { copy(trackingAction = Loading(), shouldCheckAction = true) }
         suspend {
             val response = block.invoke()
             if (response.isSuccessful && response.body() != null) response.body()!!

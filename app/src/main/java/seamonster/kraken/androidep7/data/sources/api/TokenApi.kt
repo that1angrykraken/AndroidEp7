@@ -1,12 +1,13 @@
 package seamonster.kraken.androidep7.data.sources.api
 
+import retrofit2.Response
 import retrofit2.http.*
 import seamonster.kraken.androidep7.data.models.TokenResponse
 import seamonster.kraken.androidep7.data.models.UserCredentials
 
 interface TokenApi {
     @DELETE("oauth/logout")
-    suspend fun revokeToken(): Unit
+    suspend fun revokeToken(): Response<Unit>
 
     @POST("oauth/token/revokeById/{tokenId}")
     suspend fun revokeToken(@Path("tokenId") tokenId: String): Unit
@@ -24,7 +25,7 @@ interface TokenApi {
     suspend fun loginWithRefreshToken(@Body credentials: UserCredentials): TokenResponse
 
     @POST("oauth/token")
-    suspend fun oauth(@Body credentials: UserCredentials): TokenResponse
+    suspend fun oauth(@Body credentials: UserCredentials): Response<TokenResponse>
 
     companion object {
         const val CLIENT_ID = "core_client" //"core_client"

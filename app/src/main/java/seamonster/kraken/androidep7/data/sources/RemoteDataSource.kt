@@ -12,17 +12,21 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import seamonster.kraken.androidep7.BuildConfig
+import seamonster.kraken.androidep7.util.CalendarTypeAdapter
 import seamonster.kraken.androidep7.util.format
 import java.net.CookieManager
 import java.net.CookiePolicy
 import java.security.SecureRandom
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
+import java.util.Calendar
 import java.util.Date
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Singleton
 import javax.net.ssl.*
 
+@Singleton
 class RemoteDataSource @Inject constructor(private val tokenAuthenticator: TokenAuthenticator) {
 
     companion object {
@@ -34,7 +38,7 @@ class RemoteDataSource @Inject constructor(private val tokenAuthenticator: Token
     fun <DataSource> create(dataSourceClass: Class<DataSource>): DataSource {
         val gson = GsonBuilder()
             .setPrettyPrinting()
-            .registerTypeAdapter(Date::class.java, UnitEpochDateTypeAdapter())
+            .registerTypeAdapter(Calendar::class.java, CalendarTypeAdapter())
             .setLenient()
             .create()
 
@@ -88,27 +92,6 @@ class RemoteDataSource @Inject constructor(private val tokenAuthenticator: Token
                 .build()
             chain.proceed(request)
         }
-    }
-
-    inner class UnitEpochDateTypeAdapter : TypeAdapter<Date>() {
-        override fun write(writer: JsonWriter?, value: Date?) {
-            if (value == null) {
-                writer?.nullValue()
-            } else {
-                writer?.value(value.format("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))
-            }
-        }
-
-        override fun read(reader: JsonReader?) =
-            if (reader != null) {
-                if (reader.peek() == JsonToken.NULL) {
-                    reader.nextNull()
-                    null
-                } else {
-                    reader
-                    Date(reader.nextLong())
-                }
-            } else null
     }
 
     private fun getUnsafeOkHttpClient(): OkHttpClient.Builder =

@@ -12,6 +12,7 @@ import dagger.assisted.AssistedInject
 import seamonster.kraken.androidep7.data.repos.AuthRepository
 import seamonster.kraken.androidep7.di.AssistedViewModelFactory
 import seamonster.kraken.androidep7.di.viewModelFactory
+import seamonster.kraken.androidep7.util.toMessage
 
 data class MeState(val logout: Async<Unit> = Uninitialized): MavericksState
 
@@ -23,8 +24,13 @@ class MeViewModel @AssistedInject constructor(
     fun logout() {
         setState { copy(logout = Loading()) }
         suspend {
-            authRepository.logout()
-        }.execute { result -> copy(logout = result) }
+            val response = authRepository.logout()
+            if (response.isSuccessful) response.body()!!
+            else {
+                val message = response.errorBody().toMessage()
+                throw Throwable(message)
+            }
+        }.execute { copy(logout = it) }
     }
 
     fun clearToken() = authRepository.clearToken()

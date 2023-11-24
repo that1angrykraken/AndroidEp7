@@ -29,4 +29,9 @@
         <item name="iconTint">?colorOnBackground</item>
     </style>
 
+    <style name="textAppearanceDateTimeSmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.05</item>
+    </style>
+
 </resources>

@@ -7,17 +7,11 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
-import com.airbnb.mvrx.Fail
-import com.airbnb.mvrx.Loading
-import com.airbnb.mvrx.Success
-import com.airbnb.mvrx.Uninitialized
-import com.airbnb.mvrx.fragmentViewModel
-import com.airbnb.mvrx.withState
+import com.airbnb.mvrx.*
 import seamonster.kraken.androidep7.R
 import seamonster.kraken.androidep7.core.BaseFragment
 import seamonster.kraken.androidep7.databinding.FragmentLoginBinding
-import seamonster.kraken.androidep7.ui.entry.EntryActivity
-import seamonster.kraken.androidep7.util.ApiExtension
+import seamonster.kraken.androidep7.ui.main.MainActivity
 import seamonster.kraken.androidep7.util.viewBinding
 
 class LoginFragment : BaseFragment(R.layout.fragment_login) {
@@ -41,19 +35,11 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
                 val token = state.login.invoke()
                 Log.i(TAG, "invalidate: $token")
                 viewModel.saveToken(token)
-                startActivity(Intent(requireContext(), EntryActivity::class.java))
+                startActivity(Intent(requireActivity(), MainActivity::class.java))
             }
 
             is Loading -> showLoadingOverlay(R.string.logging_in)
-
-            is Fail -> {
-                val message = when (ApiExtension.getResponseCode(state.login.error)) {
-                    400, 401 -> getString(R.string.invalid_username_or_password)
-                    else -> getString(R.string.unexpected_error)
-                }
-                binding.textLoginIssue.text = message
-            }
-
+            is Fail -> showSnackbar(state.login.error)
             Uninitialized -> {}
         }
     }
@@ -66,10 +52,12 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         }
         val navController = findNavController()
         binding.buttonSignUp.setOnClickListener {
-            navController.navigate(R.id.action_loginFragment_to_signUpFragment)
+            val action = LoginFragmentDirections.signupAction()
+            navController.navigate(action)
         }
         binding.buttonResetPassword.setOnClickListener {
-            navController.navigate(R.id.action_loginFragment_to_resetPasswordFragment)
+            val action = LoginFragmentDirections.resetPasswordAction()
+            navController.navigate(action)
         }
     }
 

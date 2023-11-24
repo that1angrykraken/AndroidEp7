@@ -11,7 +11,7 @@ import seamonster.kraken.androidep7.ui.entry.EntryViewModel
 import seamonster.kraken.androidep7.ui.main.MainViewModel
 import seamonster.kraken.androidep7.ui.me.MeViewModel
 import seamonster.kraken.androidep7.ui.notifications.NotificationViewModel
-import seamonster.kraken.androidep7.ui.signup.SignUpViewModel
+import seamonster.kraken.androidep7.ui.signup.SignupViewModel
 import seamonster.kraken.androidep7.ui.tracking.TrackingViewModel
 import seamonster.kraken.androidep7.ui.user.UserViewModel
 
@@ -30,8 +30,8 @@ interface ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(SignUpViewModel::class)
-    fun signUpViewModelFactory(factory: SignUpViewModel.Factory): AssistedViewModelFactory<*, *>
+    @ViewModelKey(SignupViewModel::class)
+    fun signUpViewModelFactory(factory: SignupViewModel.Factory): AssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap

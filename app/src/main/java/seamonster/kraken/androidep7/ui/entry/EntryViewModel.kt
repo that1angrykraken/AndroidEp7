@@ -30,22 +30,14 @@ class EntryViewModel @AssistedInject constructor(
 
     fun fetchCurrentUser() {
         setState { copy(currentUser = Loading()) }
-
-        viewModelScope.launch {
-            try {
-                val response = userRepository.fetchCurrentUser()
-                val async = if (response.isSuccessful) {
-                    Success(response.body())
-                }
-                else {
-                    val message = response.errorBody().toMessage()
-                    Fail(Throwable(message))
-                }
-                setState { copy(currentUser = async) }
-            } catch (e: Exception) {
-                setState { copy(currentUser = Fail(e)) }
+        suspend {
+            val response = userRepository.fetchCurrentUser()
+            if (response.isSuccessful) response.body()!!
+            else {
+                val message = response.errorBody().toMessage()
+                throw Throwable(message)
             }
-        }
+        }.execute { copy(currentUser = it) }
     }
 
     @AssistedFactory

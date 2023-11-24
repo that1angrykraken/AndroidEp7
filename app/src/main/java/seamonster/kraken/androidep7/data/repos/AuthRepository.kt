@@ -1,22 +1,24 @@
 package seamonster.kraken.androidep7.data.repos
 
+import retrofit2.Response
 import seamonster.kraken.androidep7.data.models.TokenResponse
 import seamonster.kraken.androidep7.data.models.User
 import seamonster.kraken.androidep7.data.models.UserCredentials
 import seamonster.kraken.androidep7.data.sources.TokenPreferences
 import seamonster.kraken.androidep7.data.sources.api.PublicApi
 import seamonster.kraken.androidep7.data.sources.api.TokenApi
+import seamonster.kraken.androidep7.data.sources.api.UserApi
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class AuthRepository @Inject constructor(
     private val tokenApi: TokenApi,
-    private val publicApi: PublicApi,
+    private val userApi: UserApi,
     private val tokenPreferences: TokenPreferences
 ) {
 
-    suspend fun login(username: String, password: String): TokenResponse {
+    suspend fun login(username: String, password: String): Response<TokenResponse> {
         val body = UserCredentials(
             username = username,
             password = password,
@@ -37,9 +39,8 @@ class AuthRepository @Inject constructor(
         return tokenApi.loginWithRefreshToken(body)
     }
 
-    suspend fun signUp(user: User): User {
-        return publicApi.signUp(user)
-    }
+    suspend fun signUp(user: User) = userApi.createOrUpdate(user)
+
 
     suspend fun logout() = tokenApi.revokeToken()
 

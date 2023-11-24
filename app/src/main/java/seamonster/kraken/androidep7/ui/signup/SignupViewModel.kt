@@ -13,35 +13,33 @@ import seamonster.kraken.androidep7.data.models.User
 import seamonster.kraken.androidep7.data.repos.AuthRepository
 import seamonster.kraken.androidep7.di.AssistedViewModelFactory
 import seamonster.kraken.androidep7.di.viewModelFactory
+import seamonster.kraken.androidep7.util.toMessage
 
 data class SignUpState(
-    val signUp: Async<User> = Uninitialized,
-    val user: User? = null
+    val signUp: Async<User> = Uninitialized
 ) : MavericksState
 
-class SignUpViewModel @AssistedInject constructor(
+class SignupViewModel @AssistedInject constructor(
     @Assisted state: SignUpState,
     private val authRepository: AuthRepository
 ) : MavericksViewModel<SignUpState>(state) {
 
-    fun handleSignUp(){
+    fun signUp(user: User) {
         setState { copy(signUp = Loading()) }
-        withState { state ->
-            suspend {
-                if (state.user != null) authRepository.signUp(state.user)
-                else error("err 400")
-            }.execute { copy(signUp = it) }
-        }
-    }
-
-    fun setUser(newUser: User?) {
-        setState { copy(user = newUser) }
+        suspend {
+            val response = authRepository.signUp(user)
+            if (response.isSuccessful) response.body()!!
+            else {
+                val message = response.errorBody().toMessage()
+                throw Throwable(message)
+            }
+        }.execute { copy(signUp = it) }
     }
 
     @AssistedFactory
-    interface Factory : AssistedViewModelFactory<SignUpViewModel, SignUpState> {
-        override fun create(state: SignUpState): SignUpViewModel
+    interface Factory : AssistedViewModelFactory<SignupViewModel, SignUpState> {
+        override fun create(state: SignUpState): SignupViewModel
     }
 
-    companion object : MavericksViewModelFactory<SignUpViewModel, SignUpState> by viewModelFactory()
+    companion object : MavericksViewModelFactory<SignupViewModel, SignUpState> by viewModelFactory()
 }

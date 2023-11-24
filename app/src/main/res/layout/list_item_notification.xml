@@ -79,8 +79,8 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{notification.date}"
-                    android:textAppearance="?textAppearanceBodySmall"
+                    android:text="@{BindingUtil.calendarToString(notification.date)}"
+                    android:textAppearance="@style/textAppearanceDateTimeSmall"
                     tools:text="2023-12-31T00:00:000Z" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.constraintlayout.widget.ConstraintLayout>

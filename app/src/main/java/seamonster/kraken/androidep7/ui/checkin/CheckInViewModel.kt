@@ -30,7 +30,7 @@ class CheckInViewModel @AssistedInject constructor(
 ) : MavericksViewModel<CheckInState>(state) {
 
     fun fetchHistory() {
-        setState { copy(history = Loading()) }
+        setState { copy(history = Loading(), shouldCheckIn = false) }
 
         suspend {
             val response = repository.fetchCheckInHistory()
@@ -38,27 +38,24 @@ class CheckInViewModel @AssistedInject constructor(
                 response.body()!!
             } else {
                 val message = response.errorBody().toMessage()
-                error(message ?: "")
+                throw Throwable(message)
             }
-        }.execute { copy(history = it) }
+        }.execute { copy(history = it, shouldCheckIn = true) }
     }
 
     fun checkIn(ip: String?) {
-        setState { copy(checkIn = Loading(), shouldCheckIn = false) }
+        setState { copy(checkIn = Loading()) }
 
         suspend {
-            if (ip.isNullOrEmpty()) error("IP address not valid!")
+            if (ip.isNullOrEmpty()) throw Throwable("IP address not valid!")
             val response = repository.checkIn(ip)
             if (response.isSuccessful && response.body() != null) {
                 response.body()!!
             } else {
                 val message = response.errorBody().toMessage()
-                error(message ?: "")
+                throw Throwable(message)
             }
-        }.execute {
-            if (it is Fail) copy(checkIn = it, shouldCheckIn = true)
-            else copy(checkIn = it)
-        }
+        }.execute { copy(checkIn = it, shouldCheckIn = true) }
     }
 
     @AssistedFactory

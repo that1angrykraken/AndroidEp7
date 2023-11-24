@@ -4,6 +4,7 @@ import androidx.databinding.InverseMethod
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import seamonster.kraken.androidep7.R
 import seamonster.kraken.androidep7.util.format
+import java.util.Calendar
 import java.util.Date
 
 object BindingUtil {
@@ -46,8 +47,8 @@ object BindingUtil {
     }
 
     @JvmStatic
-    fun dateToString(date: Date?): String? {
-        if (date == null) return null
-        return date.format("HH:mm dd/MM/yyyy")
+    fun calendarToString(calendar: Calendar?): String? {
+        if (calendar == null) return null
+        return calendar.format()
     }
 }

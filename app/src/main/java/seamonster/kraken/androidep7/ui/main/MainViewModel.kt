@@ -31,26 +31,16 @@ class MainViewModel @AssistedInject constructor(
 
     fun updateMyself(user: User) = executionScope { repository.updateMyself(user) }
 
-    private fun executionScope(scope: suspend () -> Response<User>) {
+    private fun executionScope(block: suspend () -> Response<User>) {
         setState { copy(currentUser = Loading()) }
-
-        val onSuccess: MainState.(Response<User>) -> MainState = {
-            val asyncState = if (it.isSuccessful) {
-                Success(it.body())
-            } else {
-                val message = it.errorBody().toMessage()
-                Fail(Throwable(message))
+        suspend {
+            val response = block.invoke()
+            if (response.isSuccessful) response.body()
+            else {
+                val message = response.errorBody().toMessage()
+                throw Throwable(message)
             }
-            copy(currentUser = asyncState)
-        }
-
-        scope.execute { result ->
-            when (result) {
-                is Success -> onSuccess(this@execute, result.invoke())
-                is Fail -> copy(currentUser = Fail(result.error))
-                else -> this
-            }
-        }
+        }.execute { copy(currentUser = it)}
     }
 
     @AssistedFactory

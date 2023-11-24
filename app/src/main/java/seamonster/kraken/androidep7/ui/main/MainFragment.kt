@@ -24,18 +24,14 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         when (state.currentUser) {
             is Success -> binding.user = state.currentUser.invoke()
             is Loading -> {}
-            is Fail -> {
-                val message = state.currentUser.error.message ?: getString(R.string.unexpected_error)
-                showSnackbar(message)
-            }
-
+            is Fail -> showSnackbar(state.currentUser.error)
             Uninitialized -> viewModel.fetchCurrentUser()
         }
     }
 
     private fun initializeComponents() {
         binding.viewPager.run {
-            offscreenPageLimit = 3
+            offscreenPageLimit = 1
             adapter = MainPagerAdapter(this@MainFragment)
         }
 

@@ -5,7 +5,9 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class TokenAuthenticator @Inject constructor(
     private val tokenPreferences: TokenPreferences
 ) : Authenticator {

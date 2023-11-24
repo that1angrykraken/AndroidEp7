@@ -35,6 +35,7 @@ class TrackingFragment : BaseFragment(R.layout.fragment_tracking), TrackingItemL
     }
 
     private fun onTrackingActionStateChanged() = withState(viewModel) { state ->
+        if (!state.shouldCheckAction) return@withState
         when (state.trackingAction) {
             is Success -> {
                 viewModel.fetchAll()

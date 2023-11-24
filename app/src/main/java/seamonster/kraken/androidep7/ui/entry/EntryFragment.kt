@@ -40,7 +40,7 @@ class EntryFragment : BaseFragment(R.layout.fragment_entry) {
                 val con2 = message.contains("invalid_token")
 
                 if (con1 || con2) {
-                    startActivity(Intent(requireContext(), AuthActivity::class.java))
+                    startActivity(Intent(requireActivity(), AuthActivity::class.java))
                 } else showError(message)
             }
 

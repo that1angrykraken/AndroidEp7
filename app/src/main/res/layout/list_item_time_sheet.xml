@@ -5,6 +5,7 @@
 
     <data>
 
+        <import type="seamonster.kraken.androidep7.ui.BindingUtil"/>
         <variable
             name="sheet"
             type="seamonster.kraken.androidep7.data.models.TimeSheet" />
@@ -59,8 +60,8 @@
                 android:id="@+id/materialTextView5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{sheet.dateAttendance}"
-                android:textAppearance="?textAppearanceBodySmall"
+                android:text="@{BindingUtil.calendarToString(sheet.dateAttendance)}"
+                android:textAppearance="@style/textAppearanceDateTimeSmall"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/materialTextView4"
