@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="IgnoreTypo" pattern="file:*.gradle.kts||file:*.properties||file:*//data//models//*" />
+</component>

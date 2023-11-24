@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.me.MeFragment">
+
+    <data>
+
+        <variable
+            name="user"
+            type="seamonster.kraken.androidep7.data.models.User" />
+
+        <import type="seamonster.kraken.androidep7.ui.BindingUtil" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutMe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:padding="12dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgProfilePhoto"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="36dp"
+            android:src="@drawable/round_user_48"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/shapeAppearanceCircle" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textDisplayName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{user.displayName}"
+            android:textAppearance="?textAppearanceTitleLarge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgProfilePhoto"
+            tools:text="Display name" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{user.email}"
+            android:textAppearance="?textAppearanceTitleSmall"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textDisplayName"
+            tools:text="example@name.domain" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layoutCounters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/textEmail"
+            tools:layout_editor_absoluteX="12dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonTracking"
+                style="@style/materialTextButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:text="@{BindingUtil.intToString(user.countDayTracking)}"
+                android:contentDescription="@string/count_day_tracking"
+                android:tooltipText="@string/count_day_tracking"
+                app:icon="@drawable/round_timeline_week_24"
+                tools:text="100" />
+
+            <Space
+                android:layout_width="12dp"
+                android:layout_height="match_parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonNew"
+                style="@style/materialTextButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:text="@{BindingUtil.intToString(user.countDayCheckin)}"
+                android:contentDescription="@string/count_day_check_in"
+                android:tooltipText="@string/count_day_check_in"
+                app:icon="@drawable/round_today_24"
+                tools:text="100" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/layoutCounters" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/buttonExit"
+            app:layout_constraintTop_toBottomOf="@id/divider">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonEditInformation"
+                style="@style/materialTextButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/edit_personal_information"
+                app:icon="@drawable/round_edit_24" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonPreferences"
+                style="@style/materialTextButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/preferences"
+                app:icon="@drawable/round_settings_24" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonLogout"
+                style="@style/materialTextButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/log_out"
+                app:icon="@drawable/round_logout_24" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonExit"
+            style="@style/materialTextButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/exit_application"
+            app:icon="@drawable/round_exit_to_app_24"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

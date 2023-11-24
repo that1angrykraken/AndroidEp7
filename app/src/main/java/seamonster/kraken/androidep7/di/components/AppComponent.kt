@@ -5,12 +5,12 @@ import com.airbnb.mvrx.MavericksViewModel
 import dagger.BindsInstance
 import dagger.Component
 import seamonster.kraken.androidep7.di.AssistedViewModelFactory
-import seamonster.kraken.androidep7.di.modules.DataModule
+import seamonster.kraken.androidep7.di.modules.RemoteDataModule
 import seamonster.kraken.androidep7.di.modules.ViewModelModule
 import javax.inject.Singleton
 
 @Component(
-    modules = [ViewModelModule::class, DataModule::class]
+    modules = [ViewModelModule::class, RemoteDataModule::class]
 )
 @Singleton
 interface AppComponent {

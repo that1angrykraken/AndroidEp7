@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/auth_navigation_graph"
     app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="seamonster.kraken.androidep7.ui.auth.LoginFragment"
+        android:name="seamonster.kraken.androidep7.ui.login.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_resetPasswordFragment"
@@ -21,10 +20,10 @@
     </fragment>
     <fragment
         android:id="@+id/resetPasswordFragment"
-        android:name="seamonster.kraken.androidep7.ui.auth.ResetPasswordFragment"
+        android:name="seamonster.kraken.androidep7.ui.login.ResetPasswordFragment"
         android:label="ResetPasswordFragment" />
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="seamonster.kraken.androidep7.ui.auth.SignUpFragment"
+        android:name="seamonster.kraken.androidep7.ui.signup.SignUpFragment"
         android:label="SignUpFragment" />
 </navigation>

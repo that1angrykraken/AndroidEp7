@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_navigation_graph">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainNavigationGraph"
+    android:label="MainNavigationGraph"
+    app:startDestination="@id/mainFragment">
 
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="seamonster.kraken.androidep7.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/userDetailFragment"
+        android:name="seamonster.kraken.androidep7.ui.user.UserDetailFragment"
+        android:label="fragment_user_detail"
+        tools:layout="@layout/fragment_user_detail">
+        <argument
+            android:name="userId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/meFragment"
+        android:name="seamonster.kraken.androidep7.ui.me.MeFragment"
+        android:label="fragment_me"
+        tools:layout="@layout/fragment_me">
+        <action
+            android:id="@+id/settingsAction"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+        <argument
+            android:name="currentUser"
+            android:defaultValue="@null"
+            app:argType="seamonster.kraken.androidep7.data.models.User"
+            app:nullable="true" />
+        <action
+            android:id="@+id/editInfoAction"
+            app:destination="@id/editInfoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="seamonster.kraken.androidep7.ui.main.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/seeUserDetailAction"
+            app:destination="@id/userDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/showOptionsAction"
+            app:destination="@id/meFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/editInfoFragment"
+        android:name="seamonster.kraken.androidep7.ui.me.EditInfoFragment"
+        android:label="EditInfoFragment" />
 </navigation>

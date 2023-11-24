@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.auth.LoginFragment">
+    tools:context=".ui.login.LoginFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
             app:layout_constraintVertical_bias="0.156" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout"
+            android:id="@+id/textFieldUsername"
             style="@style/roundedCornerTextField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -56,12 +56,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/hint_username"
-                android:inputType="textAutoComplete"
+                android:inputType="text"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout2"
+            android:id="@+id/textFieldPassword"
             style="@style/roundedCornerTextField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+            app:layout_constraintTop_toBottomOf="@+id/textFieldUsername"
             app:layout_constraintVertical_bias="0.042"
             app:layout_constraintWidth_max="400dp"
             app:startIconDrawable="@drawable/round_password_24">
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/hint_password"
-                android:inputType="textPassword"
+                android:inputType="text|textPassword"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,27 +92,25 @@
             android:text="@string/invalid_username_or_password"
             android:textColor="?colorError"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+            app:layout_constraintEnd_toEndOf="@id/textFieldPassword"
+            app:layout_constraintStart_toStartOf="@id/textFieldPassword"
+            app:layout_constraintTop_toBottomOf="@+id/textFieldPassword" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLogin"
-            style="@style/Widget.Material3.Button.IconButton.Filled"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingVertical="12dp"
+            android:paddingVertical="18dp"
             android:text="@string/login"
             android:textAppearance="?textAppearanceOverline"
             android:textSize="14sp"
             app:icon="@drawable/round_login_24"
             app:iconGravity="textStart"
-            app:iconPadding="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/textFieldPassword"
+            app:layout_constraintStart_toStartOf="@id/textFieldPassword"
             app:layout_constraintTop_toBottomOf="@+id/textLoginIssue"
-            app:layout_constraintVertical_bias="0.047"
+            app:layout_constraintVertical_bias="0.04"
             app:layout_constraintWidth_max="320dp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -121,7 +119,6 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
             app:layout_constraintVertical_bias="0.326">

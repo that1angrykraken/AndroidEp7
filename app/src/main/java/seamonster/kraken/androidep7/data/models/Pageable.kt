@@ -1,10 +1,10 @@
 package seamonster.kraken.androidep7.data.models
 
 data class Pageable(
-    val offset: Int,
-    val pageNumber: Int,
-    val pageSize: Int,
-    val paged: Boolean,
-    val sort: Sort,
-    val unpaged: Boolean
+    val offset: Int? = null,
+    val pageNumber: Int? = null,
+    val pageSize: Int? = null,
+    val paged: Boolean? = null,
+    val sort: Sort? = null,
+    val unpaged: Boolean? = null
 )

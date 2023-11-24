@@ -6,7 +6,7 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import seamonster.kraken.androidep7.appComponent
 
-inline fun <reified VM : MavericksViewModel<S>, S : MavericksState> trackingViewModelFactory() =
+inline fun <reified VM : MavericksViewModel<S>, S : MavericksState> viewModelFactory() =
     AppViewModelFactory(VM::class.java)
 
 class AppViewModelFactory<VM : MavericksViewModel<S>, S : MavericksState>(

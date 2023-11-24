@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="seamonster.kraken.androidep7.util.Patterns" />
+
+        <import type="seamonster.kraken.androidep7.ui.BindingUtil" />
+
+        <import type="android.view.View" />
+
+        <import type="seamonster.kraken.androidep7.data.models.User" />
+
+        <variable
+            name="oldUser"
+            type="User" />
+
+        <variable
+            name="user"
+            type="User" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.me.EditInfoFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                app:layout_anchor="@+id/appBarLayout"
+                app:layout_anchorGravity="center"
+                app:navigationContentDescription="@string/back_to_previous_screen"
+                app:navigationIcon="@drawable/round_arrow_back_24">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonSaveChanges"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/save_changes"
+                    android:visibility="@{user!=null ? View.VISIBLE : View.GONE}"/>
+            </com.google.android.material.appbar.MaterialToolbar>
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/indicatorLoading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            android:overScrollMode="always"
+            android:paddingBottom="100dp"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:visibility="@{user!=null ? View.VISIBLE : View.GONE}">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/shapeableImageView"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:contentDescription="@string/profile_photo"
+                    android:src="@drawable/round_user_48"
+                    app:imageUrl="@{user.image}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/fieldDisplayName"
+                    app:layout_constraintStart_toStartOf="@id/fieldDisplayName"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldDisplayName"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/display_name"
+                    app:inputPattern="@{Patterns.nonEmpty}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/shapeableImageView"
+                    app:layout_constraintVertical_bias="0.02"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textAutoComplete"
+                        android:text="@={user.displayName}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldEmail"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/email_address"
+                    app:inputPattern="@{Patterns.emailAddress}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fieldDisplayName"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textEmailAddress"
+                        android:text="@={user.email}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="@id/fieldEmail"
+                    app:layout_constraintStart_toStartOf="@id/fieldEmail"
+                    app:layout_constraintTop_toBottomOf="@id/fieldEmail" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldFirstName"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/first_name"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textAutoComplete"
+                        android:text="@={user.firstName}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldLastName"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/last_name"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fieldFirstName"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textAutoComplete"
+                        android:text="@={user.lastName}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldGender"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/gender"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/fieldDob"
+                    app:layout_constraintStart_toStartOf="@id/fieldLastName"
+                    app:layout_constraintTop_toBottomOf="@+id/fieldLastName"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="192dp">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/textGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="none"
+                        android:padding="16dp"
+                        android:text="@={BindingUtil.stringGender(textGender, user.gender)}"
+                        android:textSize="16sp"
+                        app:simpleItems="@array/genders" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldDob"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/date_of_birth"
+                    app:endIconDrawable="@drawable/round_edit_calendar_24"
+                    app:endIconMode="custom"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/fieldLastName"
+                    app:layout_constraintStart_toEndOf="@id/fieldGender"
+                    app:layout_constraintTop_toBottomOf="@+id/fieldLastName"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="288dp"
+                    app:layout_constraintWidth_min="232dp">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:imeOptions="actionNext"
+                        android:inputType="none"
+                        android:padding="16dp"
+                        android:textSize="16sp"
+                        app:date="@{user.dob}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldBirthPlace"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="0.4"
+                    android:hint="@string/birth_place"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fieldGender"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textBirthPlace"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="text|textPostalAddress"
+                        android:text="@={user.birthPlace}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldUniversity"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/name_of_university"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/fieldYear"
+                    app:layout_constraintStart_toStartOf="@id/fieldBirthPlace"
+                    app:layout_constraintTop_toBottomOf="@+id/fieldBirthPlace"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="288dp"
+                    app:layout_constraintWidth_min="232dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textAutoComplete"
+                        android:text="@={user.university}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldYear"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/year"
+                    app:helperText="@string/in_range_1_8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/fieldBirthPlace"
+                    app:layout_constraintStart_toEndOf="@id/fieldUniversity"
+                    app:layout_constraintTop_toBottomOf="@+id/fieldBirthPlace"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="192dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:text="@={BindingUtil.integerToString(user.year)}" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

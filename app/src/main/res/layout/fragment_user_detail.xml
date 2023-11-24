@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="seamonster.kraken.androidep7.util.Patterns" />
+
+        <import type="seamonster.kraken.androidep7.ui.BindingUtil" />
+
+        <import type="android.view.View" />
+
+        <import type="seamonster.kraken.androidep7.data.models.User" />
+
+        <variable
+            name="isAdmin"
+            type="Boolean" />
+
+        <variable
+            name="oldUser"
+            type="User" />
+
+        <variable
+            name="user"
+            type="User" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.user.UserDetailFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbarUserDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                app:layout_anchor="@+id/appBarLayout"
+                app:layout_anchorGravity="center"
+                app:navigationContentDescription="@string/back_to_previous_screen"
+                app:navigationIcon="@drawable/round_arrow_back_24">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonSaveChanges"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/save_changes"
+                    android:visibility="@{checkboxEdit.checked ? View.VISIBLE : View.GONE}" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkboxEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="8dp"
+                    android:padding="8dp"
+                    android:text="@{checkboxEdit.checked ? @string/dialog_negative_button : @string/edit_info}"
+                    android:textAppearance="?textAppearanceLabelLarge"
+                    android:visibility="@{user!=null &amp;&amp; isAdmin ? View.VISIBLE : View.GONE}"
+                    app:buttonCompat="@drawable/editor_mode_selector"
+                    tools:text="@string/edit_info" />
+            </com.google.android.material.appbar.MaterialToolbar>
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/indicatorLoading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            android:overScrollMode="always"
+            android:paddingBottom="100dp"
+            android:animateLayoutChanges="true"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutUserDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{user!=null ? View.VISIBLE : View.GONE}"
+                android:paddingHorizontal="12dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/shapeableImageView"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:contentDescription="@string/profile_photo"
+                    android:src="@drawable/round_user_48"
+                    app:imageUrl="@{user.image}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/fieldDisplayName"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="@id/fieldDisplayName"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonCountDayTracking"
+                    style="@style/materialTextButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/tracking+` `+BindingUtil.intToString(user.countDayTracking)}"
+                    android:tooltipText="@string/count_day_tracking"
+                    app:icon="@drawable/round_timeline_week_24"
+                    app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+                    app:layout_constraintTop_toTopOf="@+id/shapeableImageView"
+                    app:layout_constraintBottom_toTopOf="@id/buttonCountDayCheckIn"
+                    tools:text="@string/tracking" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonCountDayCheckIn"
+                    style="@style/materialTextButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/check_in+` `+BindingUtil.intToString(user.countDayCheckin)}"
+                    android:tooltipText="@string/count_day_check_in"
+                    app:icon="@drawable/round_today_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView"
+                    app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonCountDayTracking"
+                    tools:text="@string/check_in" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldDisplayName"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/display_name"
+                    app:inputPattern="@{Patterns.nonEmpty}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/shapeableImageView"
+                    app:layout_constraintVertical_bias="0.02"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textAutoComplete"
+                        android:text="@={user.displayName}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldEmail"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/email_address"
+                    app:inputPattern="@{Patterns.emailAddress}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fieldDisplayName"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textEmailAddress"
+                        android:text="@={user.email}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="@id/fieldEmail"
+                    app:layout_constraintStart_toStartOf="@id/fieldEmail"
+                    app:layout_constraintTop_toBottomOf="@id/fieldEmail" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldFirstName"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/first_name"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textAutoComplete"
+                        android:text="@={user.firstName}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldLastName"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/last_name"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fieldFirstName"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textAutoComplete"
+                        android:text="@={user.lastName}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldGender"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/gender"
+                    app:endIconMode="dropdown_menu"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/fieldDob"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fieldLastName"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="192dp">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/textGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="none"
+                        android:padding="16dp"
+                        android:text="@={BindingUtil.stringGender(textGender, user.gender)}"
+                        android:textSize="16sp"
+                        app:simpleItems="@array/genders" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldDob"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/date_of_birth"
+                    app:endIconDrawable="@drawable/round_edit_calendar_24"
+                    app:endIconMode="custom"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fieldGender"
+                    app:layout_constraintTop_toBottomOf="@+id/fieldLastName"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="288dp"
+                    app:layout_constraintWidth_min="232dp">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:imeOptions="actionNext"
+                        android:inputType="none"
+                        android:padding="16dp"
+                        android:textSize="16sp"
+                        app:date="@{user.dob}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldBirthPlace"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="0.4"
+                    android:hint="@string/birth_place"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fieldGender"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="480dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textBirthPlace"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="text|textPostalAddress"
+                        android:text="@={user.birthPlace}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldUniversity"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/name_of_university"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/fieldYear"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fieldBirthPlace"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="288dp"
+                    app:layout_constraintWidth_min="232dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textAutoComplete"
+                        android:text="@={user.university}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fieldYear"
+                    style="@style/roundedCornerTextField"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/year"
+                    app:helperText="@string/in_range_1_8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fieldUniversity"
+                    app:layout_constraintTop_toBottomOf="@+id/fieldBirthPlace"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_max="192dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:text="@={BindingUtil.integerToString(user.year)}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <FrameLayout
+                    android:id="@+id/layoutOverlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:alpha="0.1"
+                    android:background="?colorSurface"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:visibility="@{checkboxEdit.checked ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@id/fieldYear"
+                    app:layout_constraintTop_toTopOf="@id/fieldDisplayName"
+                    tools:visibility="gone" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonBlock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="?colorError"
+                    android:layout_marginTop="64dp"
+                    android:text="@string/block_this_user"
+                    android:textAppearance="?textAppearanceTitleMedium"
+                    android:textColor="?colorOnError"
+                    android:visibility="@{isAdmin &amp;&amp; user.active ? View.VISIBLE : View.GONE}"
+                    app:icon="@drawable/round_block_24"
+                    app:layout_constraintStart_toStartOf="@id/fieldUniversity"
+                    app:layout_constraintTop_toBottomOf="@id/fieldUniversity"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonUnblock"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="64dp"
+                    android:text="@string/unblock_user"
+                    android:textAppearance="?textAppearanceTitleMedium"
+                    android:visibility="@{isAdmin &amp;&amp; !user.active ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/fieldUniversity"
+                    app:layout_constraintTop_toBottomOf="@id/fieldUniversity" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:visibility="@{isAdmin ? View.GONE : View.VISIBLE}"
+            tools:visibility="gone">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/limited_action_notice"
+                android:textAlignment="center" />
+        </com.google.android.material.bottomappbar.BottomAppBar>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

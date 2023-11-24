@@ -22,9 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidEp7"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31" >
+        android:enableOnBackInvokedCallback="true"
+        tools:targetApi="tiramisu" >
         <activity
-            android:name=".ui.auth.AuthActivity"
+            android:name=".ui.login.AuthActivity"
             android:exported="false"
             android:noHistory="true"/>
         <activity

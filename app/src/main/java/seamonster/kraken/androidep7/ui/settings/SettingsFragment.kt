@@ -1,14 +1,11 @@
 package seamonster.kraken.androidep7.ui.settings
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.airbnb.mvrx.MavericksView
-import com.airbnb.mvrx.fragmentViewModel
+import androidx.fragment.app.Fragment
 import seamonster.kraken.androidep7.R
-import seamonster.kraken.androidep7.ui.entry.EntryViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

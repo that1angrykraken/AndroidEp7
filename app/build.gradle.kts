@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -9,12 +10,13 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "seamonster.kraken.androidep7"
+        applicationId = "$namespace"
         minSdk = 28
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
-        versionNameSuffix = "-AndroidEp7_$versionName-$versionCode"
+        versionName = "${1 + 0.1 * (versionCode ?: 1)}"
+        val packageName = namespace!!.split(".")
+        versionNameSuffix = "-${packageName[packageName.lastIndex]}_$versionCode"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -38,6 +40,7 @@ android {
     }
 
     buildFeatures {
+        dataBinding = true
         viewBinding = true
         buildConfig = true
     }
@@ -71,6 +74,9 @@ dependencies {
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0")) // define a BOM for okhttp
     implementation("com.squareup.okhttp3:logging-interceptor")
     implementation("com.squareup.okhttp3:okhttp-urlconnection")
+
+    //gson
+    implementation("com.google.code.gson:gson:2.10.1")
 
     // Dependency Injection
     implementation("com.google.dagger:dagger:$daggerVersion")
@@ -123,6 +129,12 @@ dependencies {
     // Work Manager
     implementation("androidx.work:work-runtime-ktx:2.8.1")
     implementation("androidx.work:work-rxjava2:2.8.1") // RxJava2 support
+
+    // get public ip address
+    implementation("com.github.chintan369:Ipify-Android:1.0.1")
+
+    // kotlin reflection
+    implementation(kotlin("reflect"))
 
     // default dependencies
     implementation("androidx.core:core-ktx:1.12.0")
