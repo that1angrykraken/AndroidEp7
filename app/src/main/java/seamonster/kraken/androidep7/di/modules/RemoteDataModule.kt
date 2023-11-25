@@ -28,12 +28,6 @@ object RemoteDataModule {
 
     @Provides
     @Singleton
-    fun providePublicApi(remoteDataSource: RemoteDataSource): PublicApi {
-        return remoteDataSource.create(PublicApi::class.java)
-    }
-
-    @Provides
-    @Singleton
     fun provideTimeSheetApi(remoteDataSource: RemoteDataSource): TimeSheetApi {
         return remoteDataSource.create(TimeSheetApi::class.java)
     }

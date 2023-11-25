@@ -2,7 +2,10 @@ package seamonster.kraken.androidep7.ui.user
 
 import android.util.Log
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.*
 import androidx.viewbinding.ViewBinding
 import com.airbnb.mvrx.*
@@ -20,7 +23,9 @@ class UserFragment : BaseFragment(R.layout.fragment_users), UserItemListener {
 
     private val viewModel: UserViewModel by activityViewModel()
 
-    private val adapter = UserAdapter(this)
+    private val adapter = UserAdapter(this).apply {
+        stateRestorationPolicy = PREVENT_WHEN_EMPTY
+    }
 
     override fun onStart() {
         super.onStart()
@@ -39,7 +44,7 @@ class UserFragment : BaseFragment(R.layout.fragment_users), UserItemListener {
 
     private fun onSuccess(page: Page<User>) {
         Log.i(TAG, "onSuccess: ok")
-        binding.page = page
+        adapter.updateList(page.content, !page.first)
     }
 
     private fun onFailed(t: Throwable) {
@@ -47,14 +52,22 @@ class UserFragment : BaseFragment(R.layout.fragment_users), UserItemListener {
         showSnackbar(message)
     }
 
-    private fun initializeComponents() {
-        binding.adapter = adapter.apply {
-            stateRestorationPolicy = PREVENT_WHEN_EMPTY
-        }
+    private fun initializeComponents() = binding.run {
+        list.adapter = adapter
 
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.fetchAllUsers()
-        }
+        list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(view, dx, dy)
+
+                val layoutManager = view.layoutManager as LinearLayoutManager
+                val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+                buttonTop.isVisible = firstVisiblePosition != 0
+            }
+        })
+
+        buttonTop.setOnClickListener { list.smoothScrollToPosition(0) }
+
+        swipeRefreshLayout.setOnRefreshListener { viewModel.fetchAllUsers() }
     }
 
     override fun onItemClick(view: View, user: User) {

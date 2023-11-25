@@ -46,8 +46,7 @@ class MeFragment : BaseFragment(R.layout.fragment_me) {
             is Success -> {
                 viewModel.clearToken()
                 val intent = Intent(requireContext(), AuthActivity::class.java).apply {
-                    val newFlags = Intent.FLAG_ACTIVITY_NEW_TASK and Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    addFlags(newFlags)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
                 startActivity(intent)
             }

@@ -9,10 +9,10 @@ import seamonster.kraken.androidep7.di.modules.RemoteDataModule
 import seamonster.kraken.androidep7.di.modules.ViewModelModule
 import javax.inject.Singleton
 
+@Singleton
 @Component(
     modules = [ViewModelModule::class, RemoteDataModule::class]
 )
-@Singleton
 interface AppComponent {
 
     fun viewModelFactories(): Map<Class<out MavericksViewModel<*>>, AssistedViewModelFactory<*, *>>

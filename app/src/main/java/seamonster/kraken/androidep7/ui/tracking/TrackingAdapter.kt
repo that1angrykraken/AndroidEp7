@@ -1,10 +1,10 @@
 package seamonster.kraken.androidep7.ui.tracking
 
-import android.animation.LayoutTransition
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import seamonster.kraken.androidep7.data.models.Tracking
 import seamonster.kraken.androidep7.databinding.ListItemTrackingBinding
 
@@ -18,21 +18,31 @@ class TrackingAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(tracking: Tracking) = binding.run {
-            binding.clItemContent.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
             binding.tracking = tracking.copy()
+
+            if (tracking.content.isNullOrEmpty()) {
+                val card = root as MaterialCardView
+                card.isChecked = true
+            }
+
             buttonSaveChanges.setOnClickListener {
                 checkboxEditMode.isChecked = false
                 textInputLayout.editText?.clearFocus()
                 listener.onItemSaveButtonClick(it, binding.tracking!!)
             }
+
             buttonDelete.setOnClickListener {
                 listener.onItemDeleteButtonClick(it, binding.tracking!!)
+            }
+
+            checkboxEditMode.setOnClickListener {
+                if (!checkboxEditMode.isChecked) binding.tracking = tracking.copy()
             }
         }
 
     }
 
-    var dataSet = mutableListOf<Tracking>()
+    private val dataSet = mutableListOf<Tracking>()
 
     fun updateList(newData: List<Tracking>?) {
         val newDataSet = newData ?: emptyList()

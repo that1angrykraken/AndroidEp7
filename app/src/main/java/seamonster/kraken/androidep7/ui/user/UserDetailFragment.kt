@@ -22,6 +22,7 @@ import seamonster.kraken.androidep7.data.sources.UserPreferences
 import seamonster.kraken.androidep7.databinding.FragmentUserDetailBinding
 import seamonster.kraken.androidep7.util.isValid
 import seamonster.kraken.androidep7.util.viewBinding
+import java.util.Calendar
 import java.util.Date
 
 class UserDetailFragment : BaseFragment(R.layout.fragment_user_detail) {
@@ -132,11 +133,11 @@ class UserDetailFragment : BaseFragment(R.layout.fragment_user_detail) {
     private fun showDatePicker() {
         val datePicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText(R.string.date_of_birth)
-            .setSelection(binding.user?.dob?.time)
+            .setSelection(binding.user?.dob?.timeInMillis)
             .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
             .build()
         datePicker.addOnPositiveButtonClickListener { selection ->
-            binding.user?.dob = Date(selection)
+            binding.user?.dob = Calendar.getInstance().apply { timeInMillis = selection }
         }
         datePicker.show(parentFragmentManager, TAG)
     }

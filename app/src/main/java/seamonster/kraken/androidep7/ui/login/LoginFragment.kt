@@ -11,7 +11,7 @@ import com.airbnb.mvrx.*
 import seamonster.kraken.androidep7.R
 import seamonster.kraken.androidep7.core.BaseFragment
 import seamonster.kraken.androidep7.databinding.FragmentLoginBinding
-import seamonster.kraken.androidep7.ui.main.MainActivity
+import seamonster.kraken.androidep7.ui.entry.EntryActivity
 import seamonster.kraken.androidep7.util.viewBinding
 
 class LoginFragment : BaseFragment(R.layout.fragment_login) {
@@ -35,7 +35,10 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
                 val token = state.login.invoke()
                 Log.i(TAG, "invalidate: $token")
                 viewModel.saveToken(token)
-                startActivity(Intent(requireActivity(), MainActivity::class.java))
+                val intent = Intent(requireContext(), EntryActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+                startActivity(intent)
             }
 
             is Loading -> showLoadingOverlay(R.string.logging_in)

@@ -49,7 +49,7 @@
                     android:layout_gravity="end"
                     android:layout_marginEnd="8dp"
                     android:text="@string/save_changes"
-                    android:visibility="@{user!=null ? View.VISIBLE : View.GONE}"/>
+                    android:visibility="@{user!=null ? View.VISIBLE : View.GONE}" />
             </com.google.android.material.appbar.MaterialToolbar>
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -237,8 +237,8 @@
                         android:imeOptions="actionNext"
                         android:inputType="none"
                         android:padding="16dp"
-                        android:textSize="16sp"
-                        app:date="@{user.dob}" />
+                        android:text="@{BindingUtil.calendarToString(user.dob)}"
+                        android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

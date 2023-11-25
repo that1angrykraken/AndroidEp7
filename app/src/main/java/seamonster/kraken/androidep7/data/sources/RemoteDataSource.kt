@@ -12,15 +12,16 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import seamonster.kraken.androidep7.BuildConfig
-import seamonster.kraken.androidep7.util.CalendarTypeAdapter
-import seamonster.kraken.androidep7.util.format
+import java.io.IOException
 import java.net.CookieManager
 import java.net.CookiePolicy
 import java.security.SecureRandom
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -38,7 +39,7 @@ class RemoteDataSource @Inject constructor(private val tokenAuthenticator: Token
     fun <DataSource> create(dataSourceClass: Class<DataSource>): DataSource {
         val gson = GsonBuilder()
             .setPrettyPrinting()
-            .registerTypeAdapter(Calendar::class.java, CalendarTypeAdapter())
+            .registerTypeHierarchyAdapter(Calendar::class.java, CalendarTypeAdapter())
             .setLenient()
             .create()
 
@@ -91,6 +92,41 @@ class RemoteDataSource @Inject constructor(private val tokenAuthenticator: Token
                 .method(original.method, original.body)
                 .build()
             chain.proceed(request)
+        }
+    }
+
+    class CalendarTypeAdapter : TypeAdapter<Calendar>() {
+
+        private val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
+
+        @Throws(IOException::class)
+        override fun write(writer: JsonWriter?, value: Calendar?) {
+            if (value == null) {
+                writer?.nullValue()
+            } else {
+                writer?.value(dateFormat.format(value.time))
+            }
+        }
+
+        @Throws(IOException::class)
+        override fun read(reader: JsonReader?): Calendar? {
+            if (reader?.peek() == JsonToken.NULL) {
+                reader.nextNull()
+                return null
+            }
+
+            val dateString = reader?.nextString()
+            if (dateString != null) {
+                try {
+                    val calendar = Calendar.getInstance()
+                    val date = dateFormat.parse(dateString)
+                    calendar.time = date
+                    return calendar
+                } catch (e: ParseException) {
+                    throw IOException(e)
+                }
+            }
+            return null
         }
     }
 

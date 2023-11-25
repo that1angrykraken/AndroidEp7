@@ -1,6 +1,7 @@
 package seamonster.kraken.androidep7.ui.checkin
 
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import androidx.viewbinding.ViewBinding
@@ -30,13 +31,12 @@ class CheckInFragment : BaseFragment(R.layout.fragment_check_in) {
     }
 
     override fun invalidate() {
-        onCheckInStateChanged()
         onHistoryStateChanged()
+        onCheckInStateChanged()
     }
 
     private fun onCheckInStateChanged() = withState(viewModel) { state ->
         binding.buttonCheckIn.isEnabled = state.checkIn !is Loading
-        if (!state.shouldCheckIn) return@withState
         when (state.checkIn) {
             is Success -> {
                 viewModel.fetchHistory()
@@ -68,25 +68,23 @@ class CheckInFragment : BaseFragment(R.layout.fragment_check_in) {
         list.adapter = adapter
 
         list.addOnScrollListener(object : OnScrollListener() {
-            override fun onScrollStateChanged(view: RecyclerView, state: Int) {
-                super.onScrollStateChanged(view, state)
-                buttonTop.isVisible = view.canScrollVertically(0)
+
+            override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(view, dx, dy)
+
+                val layoutManager = view.layoutManager as LinearLayoutManager
+                val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+                buttonTop.isVisible = firstVisiblePosition != 0
             }
         })
 
-        buttonTop.setOnClickListener {
-            list.smoothScrollToPosition(0)
-        }
+        buttonTop.setOnClickListener { list.smoothScrollToPosition(0) }
 
-        swipeRefreshLayout.setOnRefreshListener {
-            viewModel.fetchHistory()
-        }
+        swipeRefreshLayout.setOnRefreshListener { viewModel.fetchHistory() }
 
         Ipfy.getInstance().getPublicIpObserver().observe(requireActivity()) { ipData ->
             // every time there's a network change, set a new listener
-            buttonCheckIn.setOnClickListener {
-                viewModel.checkIn(ipData.currentIpAddress)
-            }
+            buttonCheckIn.setOnClickListener { viewModel.checkIn(ipData.currentIpAddress) }
         }
     }
 

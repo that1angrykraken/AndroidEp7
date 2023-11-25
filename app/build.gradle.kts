@@ -21,12 +21,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled = true
-
-//        javaCompileOptions {
-//            annotationProcessorOptions {
-//                arguments += ("room.schemaLocation" to "$projectDir/schemas")
-//            }
-//        }
     }
 
     buildTypes {
@@ -46,7 +40,6 @@ android {
     }
 
     compileOptions {
-//        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -55,10 +48,6 @@ android {
         jvmTarget = "1.8"
         freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
-}
-
-kapt {
-    correctErrorTypes = true
 }
 
 dependencies {
@@ -74,9 +63,6 @@ dependencies {
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0")) // define a BOM for okhttp
     implementation("com.squareup.okhttp3:logging-interceptor")
     implementation("com.squareup.okhttp3:okhttp-urlconnection")
-
-    //gson
-    implementation("com.google.code.gson:gson:2.10.1")
 
     // Dependency Injection
     implementation("com.google.dagger:dagger:$daggerVersion")
@@ -97,9 +83,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.4")
 
     // store local user data
-//    implementation("androidx.preference:preference-ktx:1.2.1") // use DataStore Preferences instead
     implementation("androidx.datastore:datastore-preferences:1.0.0")
-    implementation("androidx.datastore:datastore-preferences-rxjava2:1.0.0") // RxJava2 support
 
     implementation("androidx.paging:paging-runtime-ktx:3.2.1")
 
@@ -120,15 +104,7 @@ dependencies {
     // dot indicator
     implementation("com.tbuonomo:dotsindicator:4.2")
 
-    // RxJava2
-    implementation("io.reactivex.rxjava2:rxkotlin:2.4.0")
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
-
     implementation("com.jakewharton.rxrelay2:rxrelay:2.1.1")
-
-    // Work Manager
-    implementation("androidx.work:work-runtime-ktx:2.8.1")
-    implementation("androidx.work:work-rxjava2:2.8.1") // RxJava2 support
 
     // get public ip address
     implementation("com.github.chintan369:Ipify-Android:1.0.1")

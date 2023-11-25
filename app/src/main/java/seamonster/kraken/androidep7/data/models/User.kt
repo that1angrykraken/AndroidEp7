@@ -4,6 +4,7 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import java.io.Serializable
+import java.util.Calendar
 import java.util.Date
 
 class User() : BaseObservable(), Serializable {
@@ -37,7 +38,7 @@ class User() : BaseObservable(), Serializable {
         set(value) { field = value;notifyPropertyChanged(BR.displayName) }
 
     @get:Bindable
-    var dob: Date? = null
+    var dob: Calendar? = null
         set(value) { field = value; notifyPropertyChanged(BR.dob) }
 
     @get:Bindable

@@ -17,9 +17,12 @@ class UserPreferences (context: Context){
         get() = preferences.getString(ROLE_NAME, null)
         set(value) = edit(ROLE_NAME, value)
 
-    var theme: String?
-        get() = preferences.getString(THEME, null)
-        set(value) = edit(THEME, value)
+    var theme: ThemeMode
+        get() {
+            val themeName = preferences.getString(THEME, null)
+            return ThemeMode.valueOf(themeName ?: ThemeMode.AUTO.name)
+        }
+        set(value) = edit(THEME, value.name)
 
     var language: String?
         get() = preferences.getString(LANGUAGE, null)
@@ -31,4 +34,8 @@ class UserPreferences (context: Context){
             apply()
         }
     }
+}
+
+enum class ThemeMode {
+    DAY, NIGHT, AUTO
 }

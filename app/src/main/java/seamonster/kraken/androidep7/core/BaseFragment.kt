@@ -27,12 +27,6 @@ abstract class BaseFragment(@LayoutRes id: Int) : Fragment(id), MavericksView {
     private var snackbar: Snackbar? = null
 
     @CallSuper
-    override fun onStart() {
-        Log.i(TAG, "onStart: ${javaClass.simpleName}")
-        super.onStart()
-    }
-
-    @CallSuper
     override fun onResume() {
         Log.i(TAG, "onResume: ${javaClass.simpleName}")
         super.onResume()
@@ -40,8 +34,14 @@ abstract class BaseFragment(@LayoutRes id: Int) : Fragment(id), MavericksView {
 
     @CallSuper
     override fun onPause() {
-        Log.i(TAG, "onResume: ${javaClass.simpleName}")
+        Log.i(TAG, "onPause: ${javaClass.simpleName}")
         super.onPause()
+    }
+
+    @CallSuper
+    override fun onStop() {
+        Log.i(TAG, "onStop: ${javaClass.simpleName}")
+        super.onStop()
     }
 
     @CallSuper

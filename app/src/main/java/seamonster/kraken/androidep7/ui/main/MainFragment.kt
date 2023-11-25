@@ -31,7 +31,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
 
     private fun initializeComponents() {
         binding.viewPager.run {
-            offscreenPageLimit = 1
+            offscreenPageLimit = 3
             adapter = MainPagerAdapter(this@MainFragment)
         }
 

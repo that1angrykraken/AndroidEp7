@@ -11,15 +11,16 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import retrofit2.Response
 import seamonster.kraken.androidep7.data.models.Tracking
+import seamonster.kraken.androidep7.data.models.User
 import seamonster.kraken.androidep7.data.repos.TrackingRepository
 import seamonster.kraken.androidep7.di.AssistedViewModelFactory
 import seamonster.kraken.androidep7.di.viewModelFactory
 import seamonster.kraken.androidep7.util.toMessage
+import java.util.Calendar
 
 data class TrackingState(
     val timeline: Async<List<Tracking>> = Uninitialized,
-    val trackingAction: Async<Tracking> = Uninitialized,
-    val shouldCheckAction: Boolean = false
+    val trackingAction: Async<Tracking> = Uninitialized
 ) : MavericksState
 
 class TrackingViewModel @AssistedInject constructor(
@@ -28,7 +29,7 @@ class TrackingViewModel @AssistedInject constructor(
 ) : MavericksViewModel<TrackingState>(state) {
 
     fun fetchAll() {
-        setState { copy(timeline = Loading(), shouldCheckAction = false) }
+        setState { copy(timeline = Loading(), trackingAction = Uninitialized) }
         suspend {
             val response = repository.getTrackingTimeline()
             if (response.isSuccessful && response.body() != null) response.body()!!
@@ -39,14 +40,17 @@ class TrackingViewModel @AssistedInject constructor(
         }.execute { copy(timeline = it) }
     }
 
-    fun saveTracking(tracking: Tracking) = executionScope { repository.saveTracking(tracking) }
+    fun createNewTracking(user: User) {
+        val tracking = Tracking(date = Calendar.getInstance(), user = user)
+        executionScope { repository.saveTracking(tracking) }
+    }
 
     fun deleteTracking(id: Int) = executionScope { repository.deleteTracking(id) }
 
     fun updateTracking(tracking: Tracking) = executionScope { repository.updateTracking(tracking) }
 
     private fun executionScope(block: suspend () -> Response<Tracking>) {
-        setState { copy(trackingAction = Loading(), shouldCheckAction = true) }
+        setState { copy(trackingAction = Loading()) }
         suspend {
             val response = block.invoke()
             if (response.isSuccessful && response.body() != null) response.body()!!

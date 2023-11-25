@@ -92,4 +92,5 @@
     <string name="completed">Completed!</string>
     <string name="delete">Delete</string>
     <string name="create_new">Create new</string>
+    <string name="what_you_ve_done">What you\'ve done..</string>
 </resources>

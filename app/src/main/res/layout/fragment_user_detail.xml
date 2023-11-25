@@ -79,19 +79,19 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:clipToPadding="false"
             android:fillViewport="true"
             android:overScrollMode="always"
             android:paddingBottom="100dp"
-            android:animateLayoutChanges="true"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutUserDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="@{user!=null ? View.VISIBLE : View.GONE}"
-                android:paddingHorizontal="12dp">
+                android:paddingHorizontal="12dp"
+                android:visibility="@{user!=null ? View.VISIBLE : View.GONE}">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/shapeableImageView"
@@ -115,9 +115,9 @@
                     android:text="@{@string/tracking+` `+BindingUtil.intToString(user.countDayTracking)}"
                     android:tooltipText="@string/count_day_tracking"
                     app:icon="@drawable/round_timeline_week_24"
+                    app:layout_constraintBottom_toTopOf="@id/buttonCountDayCheckIn"
                     app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
                     app:layout_constraintTop_toTopOf="@+id/shapeableImageView"
-                    app:layout_constraintBottom_toTopOf="@id/buttonCountDayCheckIn"
                     tools:text="@string/tracking" />
 
                 <com.google.android.material.button.MaterialButton
@@ -281,8 +281,8 @@
                         android:imeOptions="actionNext"
                         android:inputType="none"
                         android:padding="16dp"
-                        android:textSize="16sp"
-                        app:date="@{user.dob}" />
+                        android:text="@{BindingUtil.calendarToString(user.dob)}"
+                        android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -373,15 +373,15 @@
                     android:id="@+id/buttonBlock"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="?colorError"
                     android:layout_marginTop="64dp"
+                    android:backgroundTint="?colorError"
                     android:text="@string/block_this_user"
                     android:textAppearance="?textAppearanceTitleMedium"
                     android:textColor="?colorOnError"
                     android:visibility="@{isAdmin &amp;&amp; user.active ? View.VISIBLE : View.GONE}"
                     app:icon="@drawable/round_block_24"
                     app:layout_constraintStart_toStartOf="@id/fieldUniversity"
-                    app:layout_constraintTop_toBottomOf="@id/fieldUniversity"/>
+                    app:layout_constraintTop_toBottomOf="@id/fieldUniversity" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonUnblock"
