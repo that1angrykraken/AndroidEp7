@@ -1,14 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.settings.SettingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:navigationIcon="@drawable/round_arrow_back_24"
+            app:navigationIconTint="?colorOnSurface"
+            app:title="@string/preferences" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-</FrameLayout>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgLanguage"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/round_language_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?colorOnSurface" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textLanguage"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:text="@string/language"
+            android:textAppearance="?textAppearanceBodyLarge"
+            app:layout_constraintStart_toEndOf="@+id/imgLanguage"
+            app:layout_constraintTop_toTopOf="@+id/imgLanguage" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggleLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:checkedButton="@id/buttonLangEn"
+            app:layout_constraintStart_toEndOf="@+id/imgLanguage"
+            app:layout_constraintTop_toBottomOf="@+id/textLanguage"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonLangEn"
+                style="?materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:text="@string/language_en" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonLangVi"
+                style="?materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:text="@string/language_vi" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgThemeMode"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/round_palette_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toggleLanguage"
+            app:tint="?colorOnSurface" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textThemeMode"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:text="@string/theme"
+            android:textAppearance="?textAppearanceBodyLarge"
+            app:layout_constraintStart_toEndOf="@+id/imgThemeMode"
+            app:layout_constraintTop_toTopOf="@+id/imgThemeMode" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggleThemeMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:checkedButton="@id/buttonThemeSystem"
+            app:layout_constraintStart_toEndOf="@+id/imgThemeMode"
+            app:layout_constraintTop_toBottomOf="@+id/textThemeMode"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonThemeSystem"
+                style="?materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:text="@string/theme_system" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonThemeDay"
+                style="?materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:text="@string/theme_day"
+                app:icon="@drawable/round_light_mode_24"
+                app:iconGravity="textStart" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonThemeNight"
+                style="?materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:text="@string/theme_night"
+                app:icon="@drawable/round_mode_night_24"
+                app:iconGravity="textStart" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

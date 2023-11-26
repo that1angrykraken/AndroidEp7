@@ -4,6 +4,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 import androidx.viewbinding.ViewBinding
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
@@ -27,7 +28,9 @@ class TrackingFragment : BaseFragment(R.layout.fragment_tracking), TrackingItemL
 
     private val mainViewModel: MainViewModel by activityViewModel()
 
-    private val adapter = TrackingAdapter(this)
+    private val adapter = TrackingAdapter(this).apply {
+        stateRestorationPolicy = PREVENT_WHEN_EMPTY
+    }
 
     override fun onStart() {
         super.onStart()
@@ -62,7 +65,6 @@ class TrackingFragment : BaseFragment(R.layout.fragment_tracking), TrackingItemL
 
     private fun initializeComponents() = binding.run {
         list.adapter = adapter
-
         list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {

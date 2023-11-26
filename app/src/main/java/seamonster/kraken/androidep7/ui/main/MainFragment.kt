@@ -40,14 +40,14 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                 0 -> tab.setIcon(R.drawable.round_view_timeline_24).contentDescription =
                     getString(R.string.tracking)
 
-                1 -> tab.setIcon(R.drawable.round_view_list_24).contentDescription =
-                    getString(R.string.user_manager)
+                1 -> tab.setIcon(R.drawable.round_today_24).contentDescription =
+                    getString(R.string.check_in)
 
                 2 -> tab.setIcon(R.drawable.round_notifications_24).contentDescription =
                     getString(R.string.notifications)
 
-                3 -> tab.setIcon(R.drawable.round_today_24).contentDescription =
-                    getString(R.string.check_in)
+                3 -> tab.setIcon(R.drawable.round_people_outline_24).contentDescription =
+                    getString(R.string.user_manager)
 
                 else -> throw IllegalArgumentException("Invalid position: $position")
             }

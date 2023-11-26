@@ -29,8 +29,8 @@ class EntryFragment : BaseFragment(R.layout.fragment_entry) {
         when (state.currentUser) {
             is Success -> {
                 val user = state.currentUser.invoke()
-                val allRoles = user?.roles?.joinToString(";") { it.name ?: "" }
-                UserPreferences(requireContext()).userRoles = allRoles
+                val joined = user?.roles?.joinToString(";") { it.name ?: "" }
+                UserPreferences(requireContext()).userRoles = joined
                 val intent = Intent(requireActivity(), MainActivity::class.java).apply {
                     flags = intentFlags
                 }

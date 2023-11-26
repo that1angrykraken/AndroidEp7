@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">App Tracking</string>
+    <string name="app_name" translatable="false">App Tracking</string>
     <string name="welcome">Welcome.</string>
     <string name="login_tip">Sign yourself in using a registered username and password.</string>
     <string name="hint_username">Username</string>
@@ -27,7 +27,7 @@
     <string name="please_wait">Please wait..</string>
     <string name="fetching_current_user">Fetching current user..</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="logging_in">Logging in..</string>
     <string name="invalid_username_or_password">"* Invalid username or password"</string>
     <string name="processing">Processing..</string>
@@ -36,8 +36,8 @@
     <string name="logged_in_as">Logged in as %1$s</string>
     <string name="sign_up_success">Successfully, your account is ready!\nPlease login to continue.</string>
     <string name="unexpected_error">An unexpected error has occurred, please try again.</string>
-    <string name="access_denied">Access denied! Please try again later.</string>
-    <string name="network_error">Connection failed! Please reconnect to your network then try again.</string>
+    <string name="access_denied">Access denied!</string>
+    <string name="network_error">Connection failed! Try reconnect to a network then try again.</string>
     <string name="is_not_valid">* %1$s is not valid!</string>
     <string name="must_match_with_password">* Must match with password!</string>
     <string name="account_already_exist">* An account with this username already exists.</string>
@@ -49,7 +49,7 @@
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
     <string name="home_screen_tabs_navigator">Home screen tabs navigator</string>
-    <string name="user_manager">User manager</string>
+    <string name="user_manager">User manager (Information update only available for Admin)</string>
     <string name="notifications">Notifications</string>
     <string name="edit_personal_information">Edit personal information</string>
     <string name="log_out">Log out</string>
@@ -57,12 +57,12 @@
     <string name="exit_application">Exit application</string>
     <string name="dialog_positive_button">OK</string>
     <string name="exitting_notice">You\'re about to exit this application.</string>
-    <string name="requesting_for_new_token">Access token is expired, requesting for a new one.</string>
+    <string name="requesting_for_new_token">Access token is expired, requesting for a new one..</string>
     <string name="error_title">Error!</string>
-    <string name="logging_out">Logging out…</string>
+    <string name="logging_out">Logging out..</string>
     <string name="count_day_tracking">Count day tracking</string>
     <string name="count_day_check_in">Count day check in</string>
-    <string name="logout_notice">You\'re going to be logged out!</string>
+    <string name="logout_notice">You\'re going to be logged out.</string>
     <string name="look_for_an_user">Look for an user..</string>
     <string name="reached_page_limit">Reached page limit.</string>
     <string name="failed_to_fetch_search_result">Failed to fetch search result.</string>
@@ -76,15 +76,15 @@
     <string name="failed_to_retrieve_user_data">Failed to retrieve user data!</string>
     <string name="limited_action_notice">You don\'t have permission to make any changes here.</string>
     <string name="block_user_notice">This user will no longer have access until you unblock.</string>
-    <string name="tracking"><b>Tracking:</b></string>
-    <string name="check_in"><b>Check in:</b></string>
+    <string name="tracking">Tracking:</string>
+    <string name="check_in">Check in:</string>
     <string name="unblock_user">Unblock</string>
     <string name="give_access_to_this_user">Give access to this user?</string>
     <string name="no_notifications">No notifications.</string>
     <string name="no_message">No message.</string>
     <string name="check_in_fab">Check in</string>
     <string name="check_in_successfully">Check in successfully!</string>
-    <string name="total_check_in">Total check in: %d</string>
+    <string name="total_check_in">Total checked in: %d</string>
     <string name="total_tracking">Total tracking: %d</string>
     <string name="content">Content</string>
     <string name="dialog_title_delete">Delete?</string>
@@ -93,4 +93,13 @@
     <string name="delete">Delete</string>
     <string name="create_new">Create new</string>
     <string name="what_you_ve_done">What you\'ve done..</string>
+    <string name="language">Language</string>
+    <string name="language_vi" translatable="false">Tiếng Việt</string>
+    <string name="language_en" translatable="false">English</string>
+    <string name="language_default">* Default</string>
+    <string name="language_default_option_explain">* If Default is selected, language will be changed based on your device\'s locale, If it isn\'t supported, English will be set by default.</string>
+    <string name="theme">Theme</string>
+    <string name="theme_system">System</string>
+    <string name="theme_day">Day</string>
+    <string name="theme_night">Night</string>
 </resources>

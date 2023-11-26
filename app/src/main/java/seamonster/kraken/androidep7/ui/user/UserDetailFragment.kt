@@ -66,8 +66,8 @@ class UserDetailFragment : BaseFragment(R.layout.fragment_user_detail) {
     }
 
     private fun initializeComponents() {
-        val roles = UserPreferences(requireContext()).userRoles
-        binding.isAdmin = roles?.contains("ADMIN") ?: false
+        val isAdmin = UserPreferences(requireContext()).userRoles?.contains("ADMIN")
+        binding.isAdmin = isAdmin ?: false
 
         binding.buttonBlock.setOnClickListener {
             createDialog(R.string.block_this_user, R.string.block_user_notice) { _, _ ->

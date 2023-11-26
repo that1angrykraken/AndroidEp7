@@ -15,6 +15,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="2dp"
@@ -58,7 +59,7 @@
                     android:minLines="@{!checkboxEditMode.checked ? 3 : 9}"
                     android:paddingTop="14dp"
                     android:paddingBottom="6dp"
-                    android:text="@={tracking.content}"
+                    android:text="@{tracking.content}"
                     android:textColor="?colorOnSurface"
                     android:textAppearance="?textAppearanceBodyMedium"
                     tools:minLines="3"
@@ -89,7 +90,6 @@
                 android:id="@+id/buttonSaveChanges"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="@{!tracking.content.empty}"
                 android:text="@string/save_changes"
                 android:visibility="@{!checkboxEditMode.checked ? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"

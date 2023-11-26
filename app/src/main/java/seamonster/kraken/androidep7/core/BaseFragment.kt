@@ -33,18 +33,6 @@ abstract class BaseFragment(@LayoutRes id: Int) : Fragment(id), MavericksView {
     }
 
     @CallSuper
-    override fun onPause() {
-        Log.i(TAG, "onPause: ${javaClass.simpleName}")
-        super.onPause()
-    }
-
-    @CallSuper
-    override fun onStop() {
-        Log.i(TAG, "onStop: ${javaClass.simpleName}")
-        super.onStop()
-    }
-
-    @CallSuper
     override fun onDestroyView() {
         Log.i(TAG, "onDestroyView: ${javaClass.simpleName}")
         super.onDestroyView()

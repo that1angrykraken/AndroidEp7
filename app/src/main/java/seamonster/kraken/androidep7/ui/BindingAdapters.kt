@@ -8,14 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 import seamonster.kraken.androidep7.R
 import seamonster.kraken.androidep7.data.models.Page
 import seamonster.kraken.androidep7.data.models.User
 import seamonster.kraken.androidep7.ui.user.UserAdapter
-import seamonster.kraken.androidep7.util.format
-import java.util.Date
 
 object BindingAdapters {
 
@@ -35,12 +32,6 @@ object BindingAdapters {
         view.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, isFocused ->
             if (isFocused) view.isErrorEnabled = false
         }
-    }
-
-    @BindingAdapter("app:date")
-    @JvmStatic
-    fun date(view: MaterialAutoCompleteTextView, date: Date? = null) {
-        view.setText(date?.format() ?: "")
     }
 
     @BindingAdapter("app:adapter")

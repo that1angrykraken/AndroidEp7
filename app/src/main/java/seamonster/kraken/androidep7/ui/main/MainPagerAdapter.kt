@@ -13,9 +13,9 @@ class MainPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> TrackingFragment()
-            1 -> UserFragment()
+            1 -> CheckInFragment()
             2 -> NotificationFragment()
-            3 -> CheckInFragment()
+            3 -> UserFragment()
             else -> throw IllegalArgumentException("Invalid position: $position")
         }
     }

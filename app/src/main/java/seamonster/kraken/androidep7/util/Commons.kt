@@ -16,6 +16,21 @@ import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
+
+fun Calendar?.isToday(timeZone: TimeZone = TimeZone.getDefault()): Boolean {
+    if (this == null) return false
+    val removeTime: Calendar.() -> Unit = {
+        this.timeZone = timeZone
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }
+    removeTime()
+    val today = Calendar.getInstance().apply(removeTime)
+    return timeInMillis == today.timeInMillis
+}
 
 fun Calendar.format(format: String? = null): String {
     val dateFormat = SimpleDateFormat(format ?: "HH:mm dd-MM-yyyy", Locale.getDefault())

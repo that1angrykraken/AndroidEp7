@@ -3,17 +3,15 @@ package seamonster.kraken.androidep7.data.repos
 import retrofit2.Response
 import seamonster.kraken.androidep7.data.models.Page
 import seamonster.kraken.androidep7.data.models.Search
-import seamonster.kraken.androidep7.data.models.Tracking
 import seamonster.kraken.androidep7.data.models.User
-import seamonster.kraken.androidep7.data.sources.api.NotificationApi
-import seamonster.kraken.androidep7.data.sources.api.TimeSheetApi
-import seamonster.kraken.androidep7.data.sources.api.TrackingApi
 import seamonster.kraken.androidep7.data.sources.api.UserApi
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRepository @Inject constructor(private val userApi: UserApi) {
+class UserRepository @Inject constructor(
+    private val userApi: UserApi,
+) {
 
     suspend fun blockUser(id: Int) = userApi.blockUser(id)
 

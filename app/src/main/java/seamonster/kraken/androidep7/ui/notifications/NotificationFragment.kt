@@ -4,13 +4,9 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 import androidx.viewbinding.ViewBinding
-import com.airbnb.mvrx.Fail
-import com.airbnb.mvrx.Loading
-import com.airbnb.mvrx.Success
-import com.airbnb.mvrx.Uninitialized
-import com.airbnb.mvrx.fragmentViewModel
-import com.airbnb.mvrx.withState
+import com.airbnb.mvrx.*
 import seamonster.kraken.androidep7.R
 import seamonster.kraken.androidep7.core.BaseFragment
 import seamonster.kraken.androidep7.data.models.Notification
@@ -24,7 +20,9 @@ class NotificationFragment : BaseFragment(R.layout.fragment_notification),
 
     private val viewModel: NotificationViewModel by fragmentViewModel()
 
-    private val adapter = NotificationAdapter(this)
+    private val adapter = NotificationAdapter(this).apply {
+        stateRestorationPolicy = PREVENT_WHEN_EMPTY
+    }
 
     override fun onStart() {
         super.onStart()

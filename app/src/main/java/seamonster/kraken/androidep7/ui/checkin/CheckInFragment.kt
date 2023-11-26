@@ -3,7 +3,7 @@ package seamonster.kraken.androidep7.ui.checkin
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 import androidx.viewbinding.ViewBinding
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
@@ -23,7 +23,9 @@ class CheckInFragment : BaseFragment(R.layout.fragment_check_in) {
 
     private val viewModel: CheckInViewModel by fragmentViewModel()
 
-    private val adapter = CheckInAdapter()
+    private val adapter = CheckInAdapter().apply {
+        stateRestorationPolicy = PREVENT_WHEN_EMPTY
+    }
 
     override fun onStart() {
         super.onStart()
@@ -67,7 +69,7 @@ class CheckInFragment : BaseFragment(R.layout.fragment_check_in) {
     private fun initializeComponents() = binding.run {
         list.adapter = adapter
 
-        list.addOnScrollListener(object : OnScrollListener() {
+        list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(view, dx, dy)

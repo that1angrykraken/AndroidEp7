@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
 import seamonster.kraken.androidep7.data.models.Tracking
 import seamonster.kraken.androidep7.databinding.ListItemTrackingBinding
 
@@ -18,21 +17,22 @@ class TrackingAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(tracking: Tracking) = binding.run {
-            binding.tracking = tracking.copy()
+            binding.tracking = tracking
 
-            if (tracking.content.isNullOrEmpty()) {
-                val card = root as MaterialCardView
-                card.isChecked = true
+            cardView.run {
+                isChecked = tracking.content.isNullOrEmpty()
+                checkboxEditMode.isChecked = isChecked && bindingAdapterPosition == 0
             }
 
             buttonSaveChanges.setOnClickListener {
                 checkboxEditMode.isChecked = false
                 textInputLayout.editText?.clearFocus()
-                listener.onItemSaveButtonClick(it, binding.tracking!!)
+                val newContent = textContent.text.toString()
+                listener.onItemSaveButtonClick(it, tracking.copy(content = newContent))
             }
 
             buttonDelete.setOnClickListener {
-                listener.onItemDeleteButtonClick(it, binding.tracking!!)
+                listener.onItemDeleteButtonClick(it, tracking)
             }
 
             checkboxEditMode.setOnClickListener {

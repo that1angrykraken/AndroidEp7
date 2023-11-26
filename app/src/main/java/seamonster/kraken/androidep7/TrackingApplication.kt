@@ -6,6 +6,7 @@ import com.airbnb.mvrx.Mavericks
 import com.creative.ipfyandroid.Ipfy
 import seamonster.kraken.androidep7.di.components.AppComponent
 import seamonster.kraken.androidep7.di.components.DaggerAppComponent
+import seamonster.kraken.androidep7.util.ThemeHelper
 
 class TrackingApplication : Application() {
 
@@ -14,8 +15,9 @@ class TrackingApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         Mavericks.initialize(this)
-        Ipfy.init(this)
         appComponent = DaggerAppComponent.factory().create(this)
+        Ipfy.init(this)
+        ThemeHelper.changeTheme(this)
     }
 }
 

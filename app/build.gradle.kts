@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -14,7 +16,9 @@ android {
         minSdk = 28
         targetSdk = 34
         versionCode = 1
-        versionName = "${1 + 0.1 * (versionCode ?: 1)}"
+
+        // update versionName by increase versionCode
+        versionName = "${1 + 0.1 * ((versionCode ?: 1) - 1)}"
         val packageName = namespace!!.split(".")
         versionNameSuffix = "-${packageName[packageName.lastIndex]}_$versionCode"
 
@@ -47,6 +51,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
         freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+    }
+
+    androidResources {
+        @Suppress("UnstableApiUsagee")
+        generateLocaleConfig = true
     }
 }
 
@@ -116,7 +125,6 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
-    implementation("androidx.compose.material3:material3:1.1.2")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

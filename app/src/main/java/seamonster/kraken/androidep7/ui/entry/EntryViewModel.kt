@@ -1,18 +1,15 @@
 package seamonster.kraken.androidep7.ui.entry
 
 import com.airbnb.mvrx.Async
-import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
-import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.launch
-import retrofit2.Response
+import seamonster.kraken.androidep7.data.models.Role
 import seamonster.kraken.androidep7.data.models.User
 import seamonster.kraken.androidep7.data.repos.UserRepository
 import seamonster.kraken.androidep7.di.AssistedViewModelFactory
@@ -25,13 +22,13 @@ data class EntryState(
 
 class EntryViewModel @AssistedInject constructor(
     @Assisted state: EntryState,
-    private val userRepository: UserRepository
+    private val repository: UserRepository
 ) : MavericksViewModel<EntryState>(state) {
 
     fun fetchCurrentUser() {
         setState { copy(currentUser = Loading()) }
         suspend {
-            val response = userRepository.fetchCurrentUser()
+            val response = repository.fetchCurrentUser()
             if (response.isSuccessful) response.body()!!
             else {
                 val message = response.errorBody().toMessage()
