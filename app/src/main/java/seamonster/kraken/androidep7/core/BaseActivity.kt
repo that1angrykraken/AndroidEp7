@@ -7,15 +7,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.progressindicator.CircularProgressIndicator
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import seamonster.kraken.androidep7.R
 import seamonster.kraken.androidep7.util.ConnectivityObserver
 import seamonster.kraken.androidep7.util.NetworkConnectivityObserver
@@ -30,6 +25,7 @@ abstract class BaseActivity(@LayoutRes id: Int): AppCompatActivity(id) {
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initConnectionLostDialog()
         connectivityObserver = NetworkConnectivityObserver(applicationContext)
         observeConnectivity()
     }
@@ -40,7 +36,7 @@ abstract class BaseActivity(@LayoutRes id: Int): AppCompatActivity(id) {
         super.onDestroy()
     }
 
-    private fun showConnectionLostDialog() {
+    private fun initConnectionLostDialog() {
         dialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.connection_lost)
             .setPositiveButton(R.string.exit_application) { dialog, _ ->
@@ -49,7 +45,7 @@ abstract class BaseActivity(@LayoutRes id: Int): AppCompatActivity(id) {
             }
             .setView(R.layout.dialog_lost_connection)
             .setCancelable(false)
-            .show()
+            .create()
     }
 
     private fun observeConnectivity() {
@@ -61,11 +57,9 @@ abstract class BaseActivity(@LayoutRes id: Int): AppCompatActivity(id) {
         job = lifecycleScope.launch {
             status.collect {
                 when (it) {
-                    ConnectivityObserver.Status.Available -> {
-                        try { dialog.dismiss() } catch (_: Exception) {}
-                    }
+                    ConnectivityObserver.Status.Available -> dialog.dismiss()
                     ConnectivityObserver.Status.Losing -> {}
-                    else -> showConnectionLostDialog()
+                    else -> dialog.show()
                 }
             }
         }
