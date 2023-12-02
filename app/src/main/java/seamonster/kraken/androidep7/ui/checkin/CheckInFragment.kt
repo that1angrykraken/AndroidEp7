@@ -9,12 +9,15 @@ import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
+import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.creative.ipfyandroid.Ipfy
 import seamonster.kraken.androidep7.R
 import seamonster.kraken.androidep7.core.BaseFragment
+import seamonster.kraken.androidep7.data.models.clone
 import seamonster.kraken.androidep7.databinding.FragmentCheckInBinding
+import seamonster.kraken.androidep7.ui.main.MainViewModel
 import seamonster.kraken.androidep7.util.viewBinding
 
 class CheckInFragment : BaseFragment(R.layout.fragment_check_in) {

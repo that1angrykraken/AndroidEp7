@@ -102,4 +102,6 @@
     <string name="theme_system">System</string>
     <string name="theme_day">Day</string>
     <string name="theme_night">Night</string>
+    <string name="connection_lost">Connection lost!</string>
+    <string name="waiting_for_network">Waiting for reconnect...</string>
 </resources>

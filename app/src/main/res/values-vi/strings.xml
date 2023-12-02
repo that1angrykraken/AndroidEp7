@@ -98,4 +98,6 @@
     <string name="theme_system">Hệ thống</string>
     <string name="theme_day">Sáng</string>
     <string name="theme_night">Tối</string>
+    <string name="connection_lost">Mất kết nối!</string>
+    <string name="waiting_for_network">Đang chờ kết nối lại...</string>
 </resources>

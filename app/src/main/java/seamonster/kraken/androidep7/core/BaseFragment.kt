@@ -2,6 +2,7 @@ package seamonster.kraken.androidep7.core
 
 import android.content.Context
 import android.content.DialogInterface
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -14,8 +15,15 @@ import androidx.viewbinding.ViewBinding
 import com.airbnb.mvrx.MavericksView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import seamonster.kraken.androidep7.R
 import seamonster.kraken.androidep7.ui.LoadingOverlayDialog
+import seamonster.kraken.androidep7.util.ConnectivityObserver
+import seamonster.kraken.androidep7.util.NetworkConnectivityObserver
 
 abstract class BaseFragment(@LayoutRes id: Int) : Fragment(id), MavericksView {
 

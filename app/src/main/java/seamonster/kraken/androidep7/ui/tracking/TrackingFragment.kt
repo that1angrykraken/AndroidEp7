@@ -16,6 +16,7 @@ import com.airbnb.mvrx.withState
 import seamonster.kraken.androidep7.R
 import seamonster.kraken.androidep7.core.BaseFragment
 import seamonster.kraken.androidep7.data.models.Tracking
+import seamonster.kraken.androidep7.data.models.clone
 import seamonster.kraken.androidep7.databinding.FragmentTrackingBinding
 import seamonster.kraken.androidep7.ui.main.MainViewModel
 import seamonster.kraken.androidep7.util.viewBinding
@@ -37,7 +38,7 @@ class TrackingFragment : BaseFragment(R.layout.fragment_tracking), TrackingItemL
         initializeComponents()
     }
 
-    override fun invalidate() = withState(viewModel, mainViewModel) { state, mainState ->
+    override fun invalidate() = withState(viewModel) { state ->
         when (state.trackingAction) {
             is Success -> viewModel.fetchAll()
             is Fail -> showSnackbar(state.trackingAction.error)
@@ -50,6 +51,7 @@ class TrackingFragment : BaseFragment(R.layout.fragment_tracking), TrackingItemL
                 val list = state.timeline.invoke()
                 binding.textTotal.text = getString(R.string.total_tracking, list.size)
                 adapter.updateList(list.reversed())
+                binding.list.scrollToPosition(0)
             }
 
             is Fail -> showSnackbar(state.timeline.error)
@@ -57,10 +59,9 @@ class TrackingFragment : BaseFragment(R.layout.fragment_tracking), TrackingItemL
             Uninitialized -> viewModel.fetchAll()
         }
 
-        val con1 = mainState.currentUser is Success
-        val con2 = state.timeline !is Loading
-        val con3 = state.trackingAction !is Loading
-        binding.buttonNew.isEnabled = con1 && con2 && con3
+        val con1 = state.timeline !is Loading
+        val con2 = state.trackingAction !is Loading
+        binding.buttonNew.isEnabled = con1 && con2
     }
 
     private fun initializeComponents() = binding.run {
@@ -86,8 +87,8 @@ class TrackingFragment : BaseFragment(R.layout.fragment_tracking), TrackingItemL
 
         buttonNew.setOnClickListener {
             withState(mainViewModel) { mainState ->
-                val currentUser = mainState.currentUser.invoke()
-                currentUser?.let { viewModel.createNewTracking(it) }
+                if (mainState.currentUser !is Success) return@withState
+                viewModel.createNewTracking(mainState.currentUser.invoke())
             }
         }
     }

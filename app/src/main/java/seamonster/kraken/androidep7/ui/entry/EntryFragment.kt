@@ -1,7 +1,6 @@
 package seamonster.kraken.androidep7.ui.entry
 
 import android.content.Intent
-import android.util.Log
 import androidx.viewbinding.ViewBinding
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
@@ -31,13 +30,12 @@ class EntryFragment : BaseFragment(R.layout.fragment_entry) {
                 val user = state.currentUser.invoke()
                 val joined = user?.roles?.joinToString(";") { it.name ?: "" }
                 UserPreferences(requireContext()).userRoles = joined
-                val intent = Intent(requireActivity(), MainActivity::class.java).apply {
-                    flags = intentFlags
-                }
+
+                val intent = Intent(requireActivity(), MainActivity::class.java)
+                intent.flags = intentFlags
                 startActivity(intent)
             }
 
-            is Loading -> {}
             is Fail -> {
                 val error = state.currentUser.error
 
@@ -46,20 +44,16 @@ class EntryFragment : BaseFragment(R.layout.fragment_entry) {
                 val con2 = message?.contains(Errors.INVALID_TOKEN) ?: false
 
                 if (con1 || con2) {
-                    val intent = Intent(requireContext(), AuthActivity::class.java).apply {
-                        flags = intentFlags
-                    }
+                    val intent = Intent(requireContext(), AuthActivity::class.java)
+                    intent.flags = intentFlags
                     startActivity(intent)
                 } else showErrorDialog(error)
             }
 
+            is Loading -> {}
             else -> viewModel.fetchCurrentUser()
         }
     }
 
     override fun getBinding(): ViewBinding = binding
-
-    companion object {
-        private const val TAG = "EntryFragment"
-    }
 }

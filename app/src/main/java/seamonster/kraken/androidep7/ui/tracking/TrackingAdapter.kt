@@ -19,9 +19,9 @@ class TrackingAdapter(
         fun bind(tracking: Tracking) = binding.run {
             binding.tracking = tracking
 
-            cardView.run {
+            with(cardView) {
                 isChecked = tracking.content.isNullOrEmpty()
-                checkboxEditMode.isChecked = isChecked && bindingAdapterPosition == 0
+                checkboxEditMode.isChecked = isChecked && absoluteAdapterPosition == 0
             }
 
             buttonSaveChanges.setOnClickListener {

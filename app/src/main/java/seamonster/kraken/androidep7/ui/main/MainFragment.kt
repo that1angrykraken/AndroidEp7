@@ -20,12 +20,17 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         initializeComponents()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchCurrentUser()
+    }
+
     override fun invalidate(): Unit = withState(viewModel) { state ->
         when (state.currentUser) {
             is Success -> binding.user = state.currentUser.invoke()
             is Loading -> {}
             is Fail -> showSnackbar(state.currentUser.error)
-            Uninitialized -> viewModel.fetchCurrentUser()
+            Uninitialized -> {}
         }
     }
 

@@ -19,7 +19,7 @@ import seamonster.kraken.androidep7.di.viewModelFactory
 import seamonster.kraken.androidep7.util.toMessage
 
 data class MainState(
-    val currentUser: Async<User?> = Uninitialized
+    val currentUser: Async<User> = Uninitialized
 ) : MavericksState
 
 class MainViewModel @AssistedInject constructor(
@@ -35,7 +35,7 @@ class MainViewModel @AssistedInject constructor(
         setState { copy(currentUser = Loading()) }
         suspend {
             val response = block.invoke()
-            if (response.isSuccessful) response.body()
+            if (response.isSuccessful && response.body() != null) response.body()!!
             else {
                 val message = response.errorBody().toMessage()
                 throw Throwable(message)
