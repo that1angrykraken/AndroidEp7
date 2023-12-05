@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="18dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgDialogIcon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="56dp"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:src="@drawable/round_notifications_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textDialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxWidth="400dp"
+        tools:text="@string/turn_on_notifications"
+        android:textAppearance="?textAppearanceTitleLarge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgDialogIcon" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textDialogMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:maxWidth="400dp"
+        android:padding="8dp"
+        tools:text="@string/turn_on_notification_message"
+        android:textAppearance="?textAppearanceSubtitle2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textDialogTitle"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonNeutral"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="18dp"
+        android:layout_marginBottom="12dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textDialogMessage"
+        tools:text="@string/never_ask_again"
+        tools:visibility="visible"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonPositive"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonNeutral"
+        app:layout_constraintEnd_toEndOf="@+id/textDialogMessage"
+        tools:text="@string/dialog_positive_button"
+        tools:visibility="visible" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonNegative"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonPositive"
+        app:layout_constraintEnd_toStartOf="@+id/buttonPositive"
+        tools:text="@string/dialog_negative_button"
+        tools:visibility="visible"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

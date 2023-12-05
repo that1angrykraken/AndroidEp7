@@ -6,6 +6,8 @@ import com.airbnb.mvrx.*
 import com.google.android.material.tabs.TabLayoutMediator
 import seamonster.kraken.androidep7.R
 import seamonster.kraken.androidep7.core.BaseFragment
+import seamonster.kraken.androidep7.data.models.User
+import seamonster.kraken.androidep7.data.sources.UserPreferences
 import seamonster.kraken.androidep7.databinding.FragmentMainBinding
 import seamonster.kraken.androidep7.util.viewBinding
 
@@ -27,14 +29,27 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
 
     override fun invalidate(): Unit = withState(viewModel) { state ->
         when (state.currentUser) {
-            is Success -> binding.user = state.currentUser.invoke()
+            is Success -> {
+                val user = state.currentUser.invoke()
+                binding.user = user
+                registerDevice(user)
+            }
             is Loading -> {}
             is Fail -> showSnackbar(state.currentUser.error)
             Uninitialized -> {}
         }
     }
 
+    private fun registerDevice(user: User) {
+        val tokenDevice = UserPreferences(requireContext()).tokenDevice
+        val con1 = user.tokenDevice.isNullOrEmpty()
+        val con2 = user.tokenDevice != tokenDevice
+        val shouldRegister = con1 && con2
+        if (shouldRegister) viewModel.registerTokenDevice(tokenDevice!!)
+    }
+
     private fun initializeComponents() {
+
         binding.viewPager.run {
             offscreenPageLimit = 3
             adapter = MainPagerAdapter(this@MainFragment)

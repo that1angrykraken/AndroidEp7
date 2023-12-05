@@ -9,6 +9,7 @@ import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
+import com.google.firebase.messaging.FirebaseMessaging
 import seamonster.kraken.androidep7.R
 import seamonster.kraken.androidep7.core.BaseFragment
 import seamonster.kraken.androidep7.data.models.User
@@ -72,7 +73,10 @@ class MeFragment : BaseFragment(R.layout.fragment_me) {
         binding.buttonLogout.setOnClickListener {
             createDialog(R.string.log_out, R.string.logout_notice) { d, _ ->
                 d.dismiss()
-                viewModel.logout()
+                FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener {
+                    if (it.isSuccessful) viewModel.logout()
+                    else it.exception?.let { e -> showSnackbar(e) }
+                }
             }.show()
         }
 

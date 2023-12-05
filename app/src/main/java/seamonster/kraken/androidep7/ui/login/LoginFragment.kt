@@ -42,7 +42,10 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             }
 
             is Loading -> showLoadingOverlay(R.string.logging_in)
-            is Fail -> showSnackbar(state.login.error)
+            is Fail -> {
+
+                showSnackbar(state.login.error)
+            }
             Uninitialized -> {}
         }
     }

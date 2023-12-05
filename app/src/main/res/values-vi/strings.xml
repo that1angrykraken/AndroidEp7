@@ -99,5 +99,13 @@
     <string name="theme_day">Sáng</string>
     <string name="theme_night">Tối</string>
     <string name="connection_lost">Mất kết nối!</string>
-    <string name="waiting_for_network">Đang chờ kết nối lại...</string>
+    <string name="waiting_for_network">Đang chờ kết nối lại…</string>
+    <string name="permission_denied">Quyền bị từ chối!</string>
+    <string name="permission_denied_message">Bất cứ khi nào bạn thay đổi quyết định, đi tới <b>Tôi => Cài đặt => Bật thông báo</b>.</string>
+    <string name="turn_on_notification_message">Bạn có thể bỏ lỡ một số sự kiện và cập nhật quan trọng trừ khi bạn để ứng dụng thông báo cho bạn biết khi có thay đổi.</string>
+    <string name="turn_on_notifications">Bật thông báo!</string>
+    <string name="never_ask_again">Đừng hỏi lại</string>
+    <string name="main_channel_name">Kênh chính</string>
+    <string name="register_new_token_fail">Đăng ký thiết bị thất bại</string>
+    <string name="untitled">Không tiêu đề</string>
 </resources>

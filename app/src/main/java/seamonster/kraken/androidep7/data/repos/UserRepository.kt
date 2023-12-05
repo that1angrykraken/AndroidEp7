@@ -27,4 +27,6 @@ class UserRepository @Inject constructor(
     suspend fun updateMyself(user: User) = userApi.updateMyself(user)
 
     suspend fun updateUser(user: User) = userApi.edit(user, user.id!!)
+
+    suspend fun registerTokenDevice(tokenDevice: String) = userApi.edit(tokenDevice)
 }

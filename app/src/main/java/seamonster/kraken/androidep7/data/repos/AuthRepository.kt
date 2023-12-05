@@ -5,7 +5,6 @@ import seamonster.kraken.androidep7.data.models.TokenResponse
 import seamonster.kraken.androidep7.data.models.User
 import seamonster.kraken.androidep7.data.models.UserCredentials
 import seamonster.kraken.androidep7.data.sources.TokenPreferences
-import seamonster.kraken.androidep7.data.sources.api.PublicApi
 import seamonster.kraken.androidep7.data.sources.api.TokenApi
 import seamonster.kraken.androidep7.data.sources.api.UserApi
 import javax.inject.Inject
@@ -25,18 +24,6 @@ class AuthRepository @Inject constructor(
             grantType = TokenApi.GRANT_TYPE_PASSWORD
         )
         return tokenApi.oauth(body)
-    }
-
-    suspend fun loginWithRefreshToken(): TokenResponse {
-        val refreshToken = getRefreshToken()
-        if (refreshToken.isNullOrEmpty()) {
-            throw IllegalArgumentException("Refresh token not found!")
-        }
-        val body = UserCredentials(
-            refreshToken = refreshToken,
-            grantType = TokenApi.GRANT_TYPE_REFRESH
-        )
-        return tokenApi.loginWithRefreshToken(body)
     }
 
     suspend fun signUp(user: User) = userApi.createOrUpdate(user)

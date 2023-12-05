@@ -22,9 +22,6 @@ interface TokenApi {
     suspend fun revokeRefreshToken(@Path("tokenId") tokenId: String): String
 
     @POST("oauth/token")
-    suspend fun loginWithRefreshToken(@Body credentials: UserCredentials): TokenResponse
-
-    @POST("oauth/token")
     suspend fun oauth(@Body credentials: UserCredentials): Response<TokenResponse>
 
     companion object {

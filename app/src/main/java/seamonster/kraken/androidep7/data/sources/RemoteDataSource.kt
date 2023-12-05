@@ -21,6 +21,7 @@ import java.security.cert.X509Certificate
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -28,7 +29,9 @@ import javax.inject.Singleton
 import javax.net.ssl.*
 
 @Singleton
-class RemoteDataSource @Inject constructor(private val tokenAuthenticator: TokenAuthenticator) {
+class RemoteDataSource @Inject constructor(
+    private val tokenPreferences: TokenPreferences
+) {
 
     companion object {
         private const val BASE_URL = "http://android-tracking.oceantech.com.vn/mita/"
@@ -36,7 +39,9 @@ class RemoteDataSource @Inject constructor(private val tokenAuthenticator: Token
         private const val DEFAULT_CONTENT_TYPE = "application/json"
     }
 
-    fun <DataSource> create(dataSourceClass: Class<DataSource>): DataSource {
+    fun <Api> create(dataSourceClass: Class<Api>): Api {
+        val authenticator = TokenAuthenticator(tokenPreferences)
+
         val gson = GsonBuilder()
             .setPrettyPrinting()
             .registerTypeHierarchyAdapter(Calendar::class.java, CalendarTypeAdapter())
@@ -45,7 +50,7 @@ class RemoteDataSource @Inject constructor(private val tokenAuthenticator: Token
 
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(getRetrofitClient(tokenAuthenticator))
+            .client(getRetrofitClient(authenticator))
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
@@ -119,7 +124,7 @@ class RemoteDataSource @Inject constructor(private val tokenAuthenticator: Token
             if (dateString != null) {
                 try {
                     val calendar = Calendar.getInstance()
-                    val date = dateFormat.parse(dateString)
+                    val date = dateFormat.parse(dateString) as Date
                     calendar.time = date
                     return calendar
                 } catch (e: ParseException) {

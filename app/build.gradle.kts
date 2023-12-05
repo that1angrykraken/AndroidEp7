@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -54,12 +55,15 @@ android {
     }
 
     androidResources {
-        @Suppress("UnstableApiUsagee")
         generateLocaleConfig = true
     }
 }
 
 dependencies {
+
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    implementation("com.google.firebase:firebase-messaging-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx:21.5.0")
 
     val daggerVersion = "2.48.1"
     val retrofitVersion = "2.9.0"

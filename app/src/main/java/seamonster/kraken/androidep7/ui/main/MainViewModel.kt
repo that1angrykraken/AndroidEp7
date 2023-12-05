@@ -1,12 +1,6 @@
 package seamonster.kraken.androidep7.ui.main
 
-import com.airbnb.mvrx.Async
-import com.airbnb.mvrx.Fail
-import com.airbnb.mvrx.Loading
-import com.airbnb.mvrx.MavericksState
-import com.airbnb.mvrx.MavericksViewModel
-import com.airbnb.mvrx.MavericksViewModelFactory
-import com.airbnb.mvrx.Success
+import com.airbnb.mvrx.*
 import com.airbnb.mvrx.Uninitialized
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -41,6 +35,10 @@ class MainViewModel @AssistedInject constructor(
                 throw Throwable(message)
             }
         }.execute { copy(currentUser = it)}
+    }
+
+    fun registerTokenDevice(tokenDevice: String) = executionScope {
+        repository.registerTokenDevice(tokenDevice)
     }
 
     @AssistedFactory

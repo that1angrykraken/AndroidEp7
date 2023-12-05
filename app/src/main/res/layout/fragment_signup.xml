@@ -9,7 +9,7 @@
             name="user"
             type="seamonster.kraken.androidep7.data.models.User" />
 
-        <import type="seamonster.kraken.androidep7.ui.BindingUtil" />
+        <import type="seamonster.kraken.androidep7.util.BindingUtil" />
 
         <import type="seamonster.kraken.androidep7.util.Patterns" />
     </data>

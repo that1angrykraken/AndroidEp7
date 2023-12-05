@@ -26,8 +26,6 @@
     <string name="reset_password">reset password.</string>
     <string name="please_wait">Please wait..</string>
     <string name="fetching_current_user">Fetching current user..</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="logging_in">Logging in..</string>
     <string name="invalid_username_or_password">"* Invalid username or password"</string>
     <string name="processing">Processing..</string>
@@ -49,7 +47,7 @@
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
     <string name="home_screen_tabs_navigator">Home screen tabs navigator</string>
-    <string name="user_manager">User manager (Information update only available for Admin)</string>
+    <string name="user_manager">User manager (Updating information only available for Admin)</string>
     <string name="notifications">Notifications</string>
     <string name="edit_personal_information">Edit personal information</string>
     <string name="log_out">Log out</string>
@@ -103,5 +101,14 @@
     <string name="theme_day">Day</string>
     <string name="theme_night">Night</string>
     <string name="connection_lost">Connection lost!</string>
-    <string name="waiting_for_network">Waiting for reconnect...</string>
+    <string name="waiting_for_network">Waiting for reconnect…</string>
+    <string name="permission_denied">Permission denied!</string>
+    <string name="permission_denied_message">Whenever you change your mind, navigate to <b>Me => Preferences => Enable notifications</b>.</string>
+    <string name="turn_on_notification_message">You might miss some important events or updates unless you let this application notify you when there are changes.</string>
+    <string name="turn_on_notifications">Turn on notifications!</string>
+    <string name="never_ask_again">Never ask again</string>
+    <string name="notification_channel_id" translatable="false">MAIN_CHANNEL</string>
+    <string name="main_channel_name">Main channel</string>
+    <string name="register_new_token_fail">Failed to register new token</string>
+    <string name="untitled">Untitled</string>
 </resources>

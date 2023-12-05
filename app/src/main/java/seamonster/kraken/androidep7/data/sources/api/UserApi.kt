@@ -21,7 +21,7 @@ interface UserApi {
     suspend fun searchByPage(@Body search: Search): Response<Page<User>>
 
     @GET("users/token-device")
-    suspend fun edit(@Query("token-device") tokenDevice: String): Response<User>
+    suspend fun edit(@Query("tokenDevice") tokenDevice: String): Response<User>
 
     @POST("users/update-myself")
     suspend fun updateMyself(@Body user: User): Response<User>

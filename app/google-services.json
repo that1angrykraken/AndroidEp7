@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "561712256166",
+    "project_id": "androidep7-c9f10",
+    "storage_bucket": "androidep7-c9f10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:561712256166:android:146c459c81db1fdb521067",
+        "android_client_info": {
+          "package_name": "seamonster.kraken.androidep7"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQAnFSi3eHYc2pcC57-cyDIbCCKVYupLA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

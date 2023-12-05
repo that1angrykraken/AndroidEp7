@@ -3,7 +3,17 @@
     <style name="Base.Theme.AndroidEp7" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="statusBarBackground">?colorSecondary</item>
+        <item name="statusBarForeground">?colorOnSecondary</item>
     </style>
 
     <style name="Theme.AndroidEp7" parent="Base.Theme.AndroidEp7" />
+
+    <style name="Theme.AndroidEp7.FullscreenDialog" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="windowNoTitle">true</item>
+<!--        <item name="android:windowFullscreen">true</item>-->
+        <item name="android:windowIsFloating">false</item>
+    </style>
 </resources>

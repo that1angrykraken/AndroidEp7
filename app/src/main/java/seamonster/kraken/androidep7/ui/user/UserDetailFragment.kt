@@ -23,7 +23,7 @@ import seamonster.kraken.androidep7.databinding.FragmentUserDetailBinding
 import seamonster.kraken.androidep7.util.isValid
 import seamonster.kraken.androidep7.util.viewBinding
 import java.util.Calendar
-import java.util.Date
+import java.util.TimeZone
 
 class UserDetailFragment : BaseFragment(R.layout.fragment_user_detail) {
 
@@ -44,7 +44,7 @@ class UserDetailFragment : BaseFragment(R.layout.fragment_user_detail) {
     override fun invalidate(): Unit = withState(viewModel) { state ->
         binding.indicatorLoading.isVisible = state.userAction is Loading
         when (state.userAction) {
-            is Success -> onSuccess(state.userAction.invoke())
+            is Success -> onSuccess(state.userAction.invoke()!!)
             is Loading -> {}
             is Fail -> onFailed(state.userAction.error)
             Uninitialized -> {
@@ -54,7 +54,7 @@ class UserDetailFragment : BaseFragment(R.layout.fragment_user_detail) {
         }
     }
 
-    private fun onSuccess(user: User?) {
+    private fun onSuccess(user: User) {
         binding.oldUser = user.toFilteredUser()
         binding.user = binding.oldUser.clone()
     }
@@ -100,7 +100,7 @@ class UserDetailFragment : BaseFragment(R.layout.fragment_user_detail) {
                 }
             }
             setOnClickListener {
-                if (!this.isChecked) binding.user = binding.oldUser.clone()
+                if (!this.isChecked) binding.user = binding.oldUser?.clone()
             }
         }
 
@@ -137,7 +137,10 @@ class UserDetailFragment : BaseFragment(R.layout.fragment_user_detail) {
             .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
             .build()
         datePicker.addOnPositiveButtonClickListener { selection ->
-            binding.user?.dob = Calendar.getInstance().apply { timeInMillis = selection }
+            binding.user?.dob = Calendar.getInstance().apply {
+                timeZone = TimeZone.getTimeZone("GMT+00:00")
+                timeInMillis = selection
+            }
         }
         datePicker.show(parentFragmentManager, TAG)
     }

@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="seamonster.kraken.androidep7.ui.BindingUtil"/>
+        <import type="seamonster.kraken.androidep7.util.BindingUtil"/>
         <variable
             name="sheet"
             type="seamonster.kraken.androidep7.data.models.TimeSheet" />

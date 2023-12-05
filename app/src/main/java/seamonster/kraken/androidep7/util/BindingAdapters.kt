@@ -1,4 +1,4 @@
-package seamonster.kraken.androidep7.ui
+package seamonster.kraken.androidep7.util
 
 import android.view.View
 import android.widget.ImageView
@@ -38,14 +38,6 @@ object BindingAdapters {
     @JvmStatic
     fun adapter(view: RecyclerView, adapter: Adapter<ViewHolder>?) {
         if (adapter != null) view.adapter = adapter
-    }
-
-    @BindingAdapter("app:setPage")
-    @JvmStatic
-    fun setPage(view: RecyclerView, page: Page<User>? = null) {
-        if (page == null) return
-        val adapter = view.adapter as? UserAdapter
-        adapter?.updateList(page.content, !page.first)
     }
 
     @BindingAdapter("app:imageUrl")

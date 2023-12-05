@@ -13,7 +13,7 @@ import seamonster.kraken.androidep7.databinding.FragmentEditMeBinding
 import seamonster.kraken.androidep7.ui.main.MainViewModel
 import seamonster.kraken.androidep7.util.viewBinding
 import java.util.Calendar
-import java.util.Date
+import java.util.TimeZone
 
 class EditInfoFragment : BaseFragment(R.layout.fragment_edit_me) {
 
@@ -37,7 +37,7 @@ class EditInfoFragment : BaseFragment(R.layout.fragment_edit_me) {
             is Fail -> {
                 val message = state.currentUser.error.message ?: getString(R.string.unexpected_error)
                 showSnackbar(message)
-                binding.user = binding.oldUser.clone()
+                binding.user = binding.oldUser?.clone()
             }
             else -> {}
         }
@@ -64,7 +64,10 @@ class EditInfoFragment : BaseFragment(R.layout.fragment_edit_me) {
             .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
             .build()
         datePicker.addOnPositiveButtonClickListener { selection ->
-            binding.user?.dob = Calendar.getInstance().apply { timeInMillis = selection }
+            binding.user?.dob = Calendar.getInstance().apply {
+                timeZone = TimeZone.getTimeZone("GMT+00:00")
+                timeInMillis = selection
+            }
         }
         datePicker.show(parentFragmentManager, TAG)
     }

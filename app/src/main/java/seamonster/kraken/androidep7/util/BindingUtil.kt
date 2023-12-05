@@ -1,11 +1,9 @@
-package seamonster.kraken.androidep7.ui
+package seamonster.kraken.androidep7.util
 
 import androidx.databinding.InverseMethod
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import seamonster.kraken.androidep7.R
-import seamonster.kraken.androidep7.util.format
 import java.util.Calendar
-import java.util.Date
 
 object BindingUtil {
 
