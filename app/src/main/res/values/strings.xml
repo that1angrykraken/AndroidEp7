@@ -111,4 +111,6 @@
     <string name="main_channel_name">Main channel</string>
     <string name="register_new_token_fail">Failed to register new token</string>
     <string name="untitled">Untitled</string>
+    <string name="tracking_timeline">Tracking timeline</string>
+    <string name="check_in_history">Check in history</string>
 </resources>

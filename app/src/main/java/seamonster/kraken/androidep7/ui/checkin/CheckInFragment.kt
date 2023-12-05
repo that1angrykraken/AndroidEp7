@@ -5,19 +5,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 import androidx.viewbinding.ViewBinding
-import com.airbnb.mvrx.Fail
-import com.airbnb.mvrx.Loading
-import com.airbnb.mvrx.Success
-import com.airbnb.mvrx.Uninitialized
-import com.airbnb.mvrx.activityViewModel
-import com.airbnb.mvrx.fragmentViewModel
-import com.airbnb.mvrx.withState
+import com.airbnb.mvrx.*
 import com.creative.ipfyandroid.Ipfy
 import seamonster.kraken.androidep7.R
 import seamonster.kraken.androidep7.core.BaseFragment
-import seamonster.kraken.androidep7.data.models.clone
 import seamonster.kraken.androidep7.databinding.FragmentCheckInBinding
-import seamonster.kraken.androidep7.ui.main.MainViewModel
 import seamonster.kraken.androidep7.util.viewBinding
 
 class CheckInFragment : BaseFragment(R.layout.fragment_check_in) {
@@ -61,6 +53,7 @@ class CheckInFragment : BaseFragment(R.layout.fragment_check_in) {
                 val list = state.history.invoke()
                 binding.textTotal.text = getString(R.string.total_check_in, list.size)
                 adapter.updateList(list.reversed())
+                binding.list.scrollToPosition(0)
             }
 
             is Fail -> showSnackbar(state.history.error)

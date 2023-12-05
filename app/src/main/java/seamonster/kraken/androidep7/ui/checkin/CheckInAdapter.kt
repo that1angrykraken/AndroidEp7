@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import seamonster.kraken.androidep7.data.models.TimeSheet
 import seamonster.kraken.androidep7.databinding.ListItemTimeSheetBinding
 
-class CheckInAdapter(): RecyclerView.Adapter<CheckInAdapter.ViewHolder>() {
+class CheckInAdapter: RecyclerView.Adapter<CheckInAdapter.ViewHolder>() {
 
     class ViewHolder(
         private val binding: ListItemTimeSheetBinding
@@ -18,13 +18,13 @@ class CheckInAdapter(): RecyclerView.Adapter<CheckInAdapter.ViewHolder>() {
         }
     }
 
-    var dataSet = mutableListOf<TimeSheet>()
+    private var dataSet = mutableListOf<TimeSheet>()
 
-    fun updateList(newData: List<TimeSheet>?) {
-        val newDataSet = newData ?: emptyList()
-        val diffResult = DiffUtil.calculateDiff(CheckInItemCallback(dataSet, newDataSet))
+    fun updateList(newData: List<TimeSheet>) {
+        val diffResult = DiffUtil.calculateDiff(CheckInItemCallback(dataSet, newData))
         dataSet.clear()
-        dataSet.addAll(newDataSet)
+        dataSet.addAll(newData)
+//        notifyDataSetChanged()
         diffResult.dispatchUpdatesTo(this)
     }
 

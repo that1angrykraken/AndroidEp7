@@ -44,7 +44,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         val tokenDevice = UserPreferences(requireContext()).tokenDevice
         val con1 = user.tokenDevice.isNullOrEmpty()
         val con2 = user.tokenDevice != tokenDevice
-        val shouldRegister = con1 && con2
+        val shouldRegister = con1 || con2
         if (shouldRegister) viewModel.registerTokenDevice(tokenDevice!!)
     }
 
@@ -58,10 +58,10 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
                 0 -> tab.setIcon(R.drawable.round_view_timeline_24).contentDescription =
-                    getString(R.string.tracking)
+                    getString(R.string.tracking_timeline)
 
                 1 -> tab.setIcon(R.drawable.round_today_24).contentDescription =
-                    getString(R.string.check_in)
+                    getString(R.string.check_in_history)
 
                 2 -> tab.setIcon(R.drawable.round_notifications_24).contentDescription =
                     getString(R.string.notifications)

@@ -138,8 +138,8 @@ class UserDetailFragment : BaseFragment(R.layout.fragment_user_detail) {
             .build()
         datePicker.addOnPositiveButtonClickListener { selection ->
             binding.user?.dob = Calendar.getInstance().apply {
-                timeZone = TimeZone.getTimeZone("GMT+00:00")
                 timeInMillis = selection
+                timeZone = TimeZone.getTimeZone("GMT+00:00")
             }
         }
         datePicker.show(parentFragmentManager, TAG)

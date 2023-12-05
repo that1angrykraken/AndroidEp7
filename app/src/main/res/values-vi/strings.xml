@@ -7,7 +7,7 @@
     <string name="dont_have_an_account">Chưa có tài khoản?</string>
     <string name="create_one">Tạo tài khoản.</string>
     <string name="login">Đăng nhập</string>
-    <string name="terms_and_services_notice">Bằng cách nhấn vào <b>Tạo tài khoản</b>, bạn đồng ý với <b>điều khoản và dịch vụ.</b></string>
+    <string name="terms_and_services_notice">Bằng cách nhấn vào <b>Tạo</b>, bạn đồng ý với <b>điều khoản và dịch vụ.</b></string>
     <string name="create">Tạo tài khoản</string>
     <string name="already_have_an_account">Đã có tài khoản?</string>
     <string name="go_to_login">Đăng nhập.</string>
@@ -107,5 +107,7 @@
     <string name="never_ask_again">Đừng hỏi lại</string>
     <string name="main_channel_name">Kênh chính</string>
     <string name="register_new_token_fail">Đăng ký thiết bị thất bại</string>
-    <string name="untitled">Không tiêu đề</string>
+    <string name="untitled">Không có tiêu đề</string>
+    <string name="tracking_timeline">Danh sách Tracking</string>
+    <string name="check_in_history">Lịch sử điểm danh</string>
 </resources>

@@ -8,10 +8,6 @@
         <import type="android.view.View" />
 
         <import type="seamonster.kraken.androidep7.util.BindingUtil" />
-
-        <variable
-            name="tracking"
-            type="seamonster.kraken.androidep7.data.models.Tracking" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -59,9 +55,8 @@
                     android:minLines="@{!checkboxEditMode.checked ? 3 : 9}"
                     android:paddingTop="14dp"
                     android:paddingBottom="6dp"
-                    android:text="@{tracking.content}"
-                    android:textColor="?colorOnSurface"
                     android:textAppearance="?textAppearanceBodyMedium"
+                    android:textColor="?colorOnSurface"
                     tools:minLines="3"
                     tools:text="line1" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -76,15 +71,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/materialTextView6"
+                android:id="@+id/textTrackingDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{BindingUtil.calendarToString(tracking.date)}"
                 android:textAppearance="@style/textAppearanceDateTimeSmall"
                 app:layout_constraintBottom_toBottomOf="@id/shapeableImageView3"
                 app:layout_constraintStart_toEndOf="@+id/shapeableImageView3"
                 app:layout_constraintTop_toTopOf="@+id/shapeableImageView3"
-                tools:text="2023-01-01T00:00:00.000+00:00" />
+                tools:text="00:00 01/01/2023" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonSaveChanges"
@@ -93,7 +87,7 @@
                 android:text="@string/save_changes"
                 android:visibility="@{!checkboxEditMode.checked ? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/materialTextView6" />
+                app:layout_constraintTop_toBottomOf="@+id/shapeableImageView3" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonDelete"
@@ -105,7 +99,7 @@
                 android:textColor="?colorOnError"
                 android:visibility="@{!checkboxEditMode.checked ? View.GONE : View.VISIBLE}"
                 app:layout_constraintEnd_toStartOf="@+id/buttonSaveChanges"
-                app:layout_constraintTop_toBottomOf="@+id/materialTextView6" />
+                app:layout_constraintTop_toTopOf="@+id/buttonSaveChanges" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

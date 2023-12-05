@@ -65,8 +65,8 @@ class EditInfoFragment : BaseFragment(R.layout.fragment_edit_me) {
             .build()
         datePicker.addOnPositiveButtonClickListener { selection ->
             binding.user?.dob = Calendar.getInstance().apply {
-                timeZone = TimeZone.getTimeZone("GMT+00:00")
                 timeInMillis = selection
+                timeZone = TimeZone.getTimeZone("GMT+00:00")
             }
         }
         datePicker.show(parentFragmentManager, TAG)
