@@ -10,7 +10,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import retrofit2.Response
-import seamonster.kraken.androidep7.data.models.Page
 import seamonster.kraken.androidep7.data.models.User
 import seamonster.kraken.androidep7.data.repos.UserRepository
 import seamonster.kraken.androidep7.di.AssistedViewModelFactory
@@ -18,7 +17,7 @@ import seamonster.kraken.androidep7.di.viewModelFactory
 import seamonster.kraken.androidep7.util.toMessage
 
 data class UserState(
-    val searchResult: Async<Page<User>> = Uninitialized,
+    val searchResult: Async<Unit> = Uninitialized,
     val userAction: Async<User?> = Uninitialized,
     val pageIndex: Int = 0,
 ) : MavericksState
@@ -28,6 +27,9 @@ class UserViewModel @AssistedInject constructor(
     private val repository: UserRepository
 ) : MavericksViewModel<UserState>(state) {
 
+    val currentUser = repository.currentUserLiveData
+    val userPage = repository.pageLiveData
+
     fun fetchAllUsers(nextPage: Boolean = false) {
         setState {
             val nextPageIndex = if (nextPage) pageIndex + 1 else 0
@@ -36,13 +38,7 @@ class UserViewModel @AssistedInject constructor(
 
         withState { state ->
             suspend {
-                val response = repository.fetchSearchResult("", state.pageIndex)
-                if (response.isSuccessful && response.body() != null) {
-                    response.body()!!
-                } else {
-                    val message = response.errorBody().toMessage()
-                    throw Throwable(message)
-                }
+                repository.fetchSearchResult("", state.pageIndex)
             }.execute { copy(searchResult = it) }
         }
     }
@@ -72,7 +68,5 @@ class UserViewModel @AssistedInject constructor(
         override fun create(state: UserState): UserViewModel
     }
 
-    companion object : MavericksViewModelFactory<UserViewModel, UserState> by viewModelFactory() {
-        private const val TAG = "UserViewModel"
-    }
+    companion object : MavericksViewModelFactory<UserViewModel, UserState> by viewModelFactory()
 }

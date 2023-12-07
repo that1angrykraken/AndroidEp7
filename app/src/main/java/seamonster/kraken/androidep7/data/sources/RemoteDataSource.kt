@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -100,41 +101,6 @@ class RemoteDataSource @Inject constructor(
         }
     }
 
-    class CalendarTypeAdapter : TypeAdapter<Calendar>() {
-
-        private val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
-
-        @Throws(IOException::class)
-        override fun write(writer: JsonWriter?, value: Calendar?) {
-            if (value == null) {
-                writer?.nullValue()
-            } else {
-                writer?.value(dateFormat.format(value.time))
-            }
-        }
-
-        @Throws(IOException::class)
-        override fun read(reader: JsonReader?): Calendar? {
-            if (reader?.peek() == JsonToken.NULL) {
-                reader.nextNull()
-                return null
-            }
-
-            val dateString = reader?.nextString()
-            if (dateString != null) {
-                try {
-                    val calendar = Calendar.getInstance()
-                    val date = dateFormat.parse(dateString) as Date
-                    calendar.time = date
-                    return calendar
-                } catch (e: ParseException) {
-                    throw IOException(e)
-                }
-            }
-            return null
-        }
-    }
-
     private fun getUnsafeOkHttpClient(): OkHttpClient.Builder =
         try {
             // Create a trust manager that does not validate certificate chains
@@ -170,4 +136,47 @@ class RemoteDataSource @Inject constructor(
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
+}
+
+class CalendarTypeAdapter : TypeAdapter<Calendar>() {
+
+    companion object {
+        private const val PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+    }
+
+    private val defaultTimeZone = TimeZone.getTimeZone("GMT+00:00")
+
+    private val dateFormat = SimpleDateFormat(PATTERN, Locale.getDefault()).apply {
+        timeZone = defaultTimeZone
+    }
+
+    @Throws(IOException::class)
+    override fun write(writer: JsonWriter?, value: Calendar?) {
+        if (value == null) {
+            writer?.nullValue()
+        } else {
+            writer?.value(dateFormat.format(value.time))
+        }
+    }
+
+    @Throws(IOException::class)
+    override fun read(reader: JsonReader?): Calendar? {
+        if (reader?.peek() == JsonToken.NULL) {
+            reader.nextNull()
+            return null
+        }
+
+        val dateString = reader?.nextString()
+        if (dateString != null) {
+            try {
+                val calendar = Calendar.getInstance()
+                val date = dateFormat.parse(dateString) as Date
+                calendar.time = date
+                return calendar
+            } catch (e: ParseException) {
+                throw IOException(e)
+            }
+        }
+        return null
+    }
 }

@@ -28,7 +28,6 @@ class AuthRepository @Inject constructor(
 
     suspend fun signUp(user: User) = userApi.createOrUpdate(user)
 
-
     suspend fun logout() = tokenApi.revokeToken()
 
     fun clearToken() {
@@ -44,7 +43,5 @@ class AuthRepository @Inject constructor(
             tokenPreferences.authTokenRefresh = token.refreshToken
         }
     }
-
-    fun getRefreshToken(): String? = tokenPreferences.authTokenRefresh
 
 }

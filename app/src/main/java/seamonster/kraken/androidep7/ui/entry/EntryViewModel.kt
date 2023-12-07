@@ -9,15 +9,12 @@ import com.airbnb.mvrx.Uninitialized
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import seamonster.kraken.androidep7.data.models.Role
-import seamonster.kraken.androidep7.data.models.User
 import seamonster.kraken.androidep7.data.repos.UserRepository
 import seamonster.kraken.androidep7.di.AssistedViewModelFactory
 import seamonster.kraken.androidep7.di.viewModelFactory
-import seamonster.kraken.androidep7.util.toMessage
 
 data class EntryState(
-    val currentUser: Async<User?> = Uninitialized
+    val currentUser: Async<Unit> = Uninitialized
 ) : MavericksState
 
 class EntryViewModel @AssistedInject constructor(
@@ -25,15 +22,12 @@ class EntryViewModel @AssistedInject constructor(
     private val repository: UserRepository
 ) : MavericksViewModel<EntryState>(state) {
 
+    val currentUser = repository.currentUserLiveData
+
     fun fetchCurrentUser() {
         setState { copy(currentUser = Loading()) }
         suspend {
-            val response = repository.fetchCurrentUser()
-            if (response.isSuccessful) response.body()!!
-            else {
-                val message = response.errorBody().toMessage()
-                throw Throwable(message)
-            }
+            repository.fetchCurrentUser()
         }.execute { copy(currentUser = it) }
     }
 
@@ -43,7 +37,5 @@ class EntryViewModel @AssistedInject constructor(
     }
 
     companion object :
-        MavericksViewModelFactory<EntryViewModel, EntryState> by viewModelFactory() {
-        private const val TAG = "EntryViewModel"
-    }
+        MavericksViewModelFactory<EntryViewModel, EntryState> by viewModelFactory()
 }

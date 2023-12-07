@@ -25,15 +25,16 @@ class MeViewModel @AssistedInject constructor(
         setState { copy(logout = Loading()) }
         suspend {
             val response = authRepository.logout()
-            if (response.isSuccessful) response.body()!!
+            if (response.isSuccessful) {
+                authRepository.clearToken()
+                response.body()!!
+            }
             else {
                 val message = response.errorBody().toMessage()
                 throw Throwable(message)
             }
         }.execute { copy(logout = it) }
     }
-
-    fun clearToken() = authRepository.clearToken()
 
     @AssistedFactory
     interface Factory: AssistedViewModelFactory<MeViewModel, MeState>{

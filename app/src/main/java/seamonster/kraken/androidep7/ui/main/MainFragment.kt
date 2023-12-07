@@ -22,33 +22,16 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         initializeComponents()
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.fetchCurrentUser()
-    }
-
     override fun invalidate(): Unit = withState(viewModel) { state ->
-        when (state.currentUser) {
-            is Success -> {
-                val user = state.currentUser.invoke()
-                binding.user = user
-                registerDevice(user)
-            }
-            is Loading -> {}
-            is Fail -> showSnackbar(state.currentUser.error)
-            Uninitialized -> {}
-        }
-    }
-
-    private fun registerDevice(user: User) {
-        val tokenDevice = UserPreferences(requireContext()).tokenDevice
-        val con1 = user.tokenDevice.isNullOrEmpty()
-        val con2 = user.tokenDevice != tokenDevice
-        val shouldRegister = con1 || con2
-        if (shouldRegister) viewModel.registerTokenDevice(tokenDevice!!)
+        if (state.currentUser is Fail) showSnackbar(state.currentUser.error)
     }
 
     private fun initializeComponents() {
+
+        viewModel.currentUser.observe(this) { user ->
+            binding.user = user
+            registerDevice(user)
+        }
 
         binding.viewPager.run {
             offscreenPageLimit = 3
@@ -79,9 +62,13 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         }
     }
 
-    override fun getBinding(): ViewBinding = binding
-
-    companion object {
-        private const val TAG = "MainFragment"
+    private fun registerDevice(user: User) {
+        val tokenDevice = UserPreferences(requireContext()).tokenDevice
+        val con1 = user.tokenDevice.isNullOrEmpty()
+        val con2 = user.tokenDevice != tokenDevice
+        val shouldRegister = con1 || con2
+        if (shouldRegister) viewModel.registerTokenDevice(tokenDevice!!)
     }
+
+    override fun getBinding(): ViewBinding = binding
 }

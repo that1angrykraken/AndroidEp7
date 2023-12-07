@@ -5,7 +5,6 @@ import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import java.io.Serializable
 import java.util.Calendar
-import java.util.Date
 
 class User() : BaseObservable(), Serializable {
 
@@ -97,6 +96,11 @@ class User() : BaseObservable(), Serializable {
     var year: Int? = null
         set(value) { field = value; notifyPropertyChanged(BR.year) }
 
+}
+
+fun User.isAdmin(): Boolean {
+    val joined = this.roles?.joinToString(";") { it.name ?: "" }
+    return joined?.contains("ADMIN") ?: false
 }
 
 fun User?.clone(): User? {

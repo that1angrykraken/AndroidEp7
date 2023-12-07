@@ -22,7 +22,7 @@ class TokenAuthenticator (
 
         private const val AUTHORIZATION = "Authorization"
         private const val BASIC = "Basic Y29yZV9jbGllbnQ6c2VjcmV0"
-        private const val BEARER_POSTFIX = "Bearer"
+        private const val BEARER_POSTFIX = "Bearer "
     }
 
     private var mAccessToken: String? = ""
@@ -53,7 +53,7 @@ class TokenAuthenticator (
             .build()
     }
 
-    private fun bearerToken() = "$BEARER_POSTFIX $mAccessToken"
+    private fun bearerToken() = BEARER_POSTFIX + mAccessToken
 
     private fun fetchNewToken() {
         if (mRequestNewToken) return

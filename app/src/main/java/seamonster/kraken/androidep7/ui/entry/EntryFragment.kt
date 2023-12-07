@@ -22,37 +22,42 @@ class EntryFragment : BaseFragment(R.layout.fragment_entry) {
 
     private val viewModel: EntryViewModel by fragmentViewModel()
 
-    private val intentFlags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    override fun onStart() {
+        super.onStart()
+
+        viewModel.currentUser.observe(this) { user ->
+            val joined = user.roles?.joinToString(";") { it.name ?: "" }
+            UserPreferences(requireContext()).userRoles = joined
+        }
+    }
 
     override fun invalidate() = withState(viewModel) { state ->
         when (state.currentUser) {
-            is Success -> {
-                val user = state.currentUser.invoke()
-                val joined = user?.roles?.joinToString(";") { it.name ?: "" }
-                UserPreferences(requireContext()).userRoles = joined
-
-                val intent = Intent(requireActivity(), MainActivity::class.java)
-                intent.flags = intentFlags
-                startActivity(intent)
-            }
+            is Success -> navigateTo(Intent(requireActivity(), MainActivity::class.java))
 
             is Fail -> {
                 val error = state.currentUser.error
 
                 val message = error.message
-                val con1 = message?.contains(Errors.UNAUTHORIZED) ?: false
-                val con2 = message?.contains(Errors.INVALID_TOKEN) ?: false
+                val con1 = message?.contains(Errors.UNAUTHORIZED)
+                val con2 = message?.contains(Errors.INVALID_TOKEN)
 
-                if (con1 || con2) {
-                    val intent = Intent(requireContext(), AuthActivity::class.java)
-                    intent.flags = intentFlags
-                    startActivity(intent)
-                } else showErrorDialog(error)
+                if (con1 == true || con2 == true) {
+                    navigateTo(Intent(requireContext(), AuthActivity::class.java))
+                } else {
+                    showErrorDialog(error)
+                }
             }
 
             is Loading -> {}
             else -> viewModel.fetchCurrentUser()
         }
+    }
+
+    private fun navigateTo(intent: Intent) {
+        val intentFlags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        intent.flags = intentFlags
+        startActivity(intent)
     }
 
     override fun getBinding(): ViewBinding = binding

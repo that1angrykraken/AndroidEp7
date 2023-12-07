@@ -5,7 +5,6 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.BigTextStyle
@@ -40,15 +39,7 @@ class MessagingService : FirebaseMessagingService() {
         UserPreferences(applicationContext).tokenDevice = token
         mJob = CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = repository.registerTokenDevice(token)
-                if (!response.isSuccessful) {
-                    Toast.makeText(
-                        applicationContext,
-                        R.string.register_new_token_fail,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    response.errorBody().toMessage()?.let { error(it) }
-                }
+                repository.registerTokenDevice(token)
             } catch (e: Exception) {
                 Log.e(TAG, "onNewToken: ", e)
             }

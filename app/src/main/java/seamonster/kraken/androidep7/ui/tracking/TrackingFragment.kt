@@ -16,7 +16,6 @@ import com.airbnb.mvrx.withState
 import seamonster.kraken.androidep7.R
 import seamonster.kraken.androidep7.core.BaseFragment
 import seamonster.kraken.androidep7.data.models.Tracking
-import seamonster.kraken.androidep7.data.models.clone
 import seamonster.kraken.androidep7.databinding.FragmentTrackingBinding
 import seamonster.kraken.androidep7.ui.main.MainViewModel
 import seamonster.kraken.androidep7.util.viewBinding
@@ -85,10 +84,9 @@ class TrackingFragment : BaseFragment(R.layout.fragment_tracking), TrackingItemL
             viewModel.fetchAll()
         }
 
-        buttonNew.setOnClickListener {
-            withState(mainViewModel) { mainState ->
-                if (mainState.currentUser !is Success) return@withState
-                viewModel.createNewTracking(mainState.currentUser.invoke())
+        mainViewModel.currentUser.observe(this@TrackingFragment) { user ->
+            buttonNew.setOnClickListener {
+                viewModel.createNewTracking(user)
             }
         }
     }

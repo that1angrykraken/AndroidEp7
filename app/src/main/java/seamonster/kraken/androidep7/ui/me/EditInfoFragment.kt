@@ -13,7 +13,6 @@ import seamonster.kraken.androidep7.databinding.FragmentEditMeBinding
 import seamonster.kraken.androidep7.ui.main.MainViewModel
 import seamonster.kraken.androidep7.util.viewBinding
 import java.util.Calendar
-import java.util.TimeZone
 
 class EditInfoFragment : BaseFragment(R.layout.fragment_edit_me) {
 
@@ -27,23 +26,21 @@ class EditInfoFragment : BaseFragment(R.layout.fragment_edit_me) {
     }
 
     override fun invalidate() = withState(viewModel) { state ->
-        binding.indicatorLoading.isVisible = state.currentUser is Loading
-        when (state.currentUser) {
-            is Success -> {
-                val user = state.currentUser.invoke()
-                binding.oldUser = user.toFilteredUser()
-                binding.user = binding.oldUser.clone()
-            }
-            is Fail -> {
-                val message = state.currentUser.error.message ?: getString(R.string.unexpected_error)
-                showSnackbar(message)
+        state.currentUser.let {
+            binding.indicatorLoading.isVisible = it is Loading
+            if (it is Fail) {
+                showSnackbar(it.error)
                 binding.user = binding.oldUser?.clone()
             }
-            else -> {}
         }
     }
 
     private fun initializeComponents() {
+        viewModel.currentUser.observe(this) { user ->
+            binding.oldUser = user.toFilteredUser()
+            binding.user = binding.oldUser.clone()
+        }
+
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
@@ -66,7 +63,6 @@ class EditInfoFragment : BaseFragment(R.layout.fragment_edit_me) {
         datePicker.addOnPositiveButtonClickListener { selection ->
             binding.user?.dob = Calendar.getInstance().apply {
                 timeInMillis = selection
-                timeZone = TimeZone.getTimeZone("GMT+00:00")
             }
         }
         datePicker.show(parentFragmentManager, TAG)

@@ -4,26 +4,19 @@ import androidx.core.view.allViews
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
-import com.airbnb.mvrx.Fail
-import com.airbnb.mvrx.Loading
-import com.airbnb.mvrx.Success
-import com.airbnb.mvrx.Uninitialized
-import com.airbnb.mvrx.activityViewModel
-import com.airbnb.mvrx.withState
+import com.airbnb.mvrx.*
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputLayout
 import seamonster.kraken.androidep7.R
 import seamonster.kraken.androidep7.core.BaseFragment
-import seamonster.kraken.androidep7.data.models.User
 import seamonster.kraken.androidep7.data.models.clone
+import seamonster.kraken.androidep7.data.models.isAdmin
 import seamonster.kraken.androidep7.data.models.toFilteredUser
-import seamonster.kraken.androidep7.data.sources.UserPreferences
 import seamonster.kraken.androidep7.databinding.FragmentUserDetailBinding
 import seamonster.kraken.androidep7.util.isValid
 import seamonster.kraken.androidep7.util.viewBinding
 import java.util.Calendar
-import java.util.TimeZone
 
 class UserDetailFragment : BaseFragment(R.layout.fragment_user_detail) {
 
@@ -42,32 +35,24 @@ class UserDetailFragment : BaseFragment(R.layout.fragment_user_detail) {
     }
 
     override fun invalidate(): Unit = withState(viewModel) { state ->
-        binding.indicatorLoading.isVisible = state.userAction is Loading
-        when (state.userAction) {
-            is Success -> onSuccess(state.userAction.invoke()!!)
-            is Loading -> {}
-            is Fail -> onFailed(state.userAction.error)
-            Uninitialized -> {
-                val id = arguments?.getInt("userId") ?: -1
-                viewModel.fetchUser(id)
+        state.userAction.let {
+            binding.indicatorLoading.isVisible = it is Loading
+            if (it is Success) {
+                val user = state.userAction.invoke()!!
+                binding.oldUser = user.toFilteredUser()
+                binding.user = binding.oldUser.clone()
+            }
+            if (it is Fail) {
+                showSnackbar(it.error)
+                binding.checkboxEdit.callOnClick()
             }
         }
     }
 
-    private fun onSuccess(user: User) {
-        binding.oldUser = user.toFilteredUser()
-        binding.user = binding.oldUser.clone()
-    }
-
-    private fun onFailed(t: Throwable) {
-        val message = t.message ?: getString(R.string.unexpected_error)
-        showSnackbar(message)
-        binding.checkboxEdit.callOnClick()
-    }
-
     private fun initializeComponents() {
-        val isAdmin = UserPreferences(requireContext()).userRoles?.contains("ADMIN")
-        binding.isAdmin = isAdmin ?: false
+        viewModel.currentUser.observe(this) { user ->
+            binding.isAdmin = user.isAdmin()
+        }
 
         binding.buttonBlock.setOnClickListener {
             createDialog(R.string.block_this_user, R.string.block_user_notice) { _, _ ->
@@ -139,7 +124,6 @@ class UserDetailFragment : BaseFragment(R.layout.fragment_user_detail) {
         datePicker.addOnPositiveButtonClickListener { selection ->
             binding.user?.dob = Calendar.getInstance().apply {
                 timeInMillis = selection
-                timeZone = TimeZone.getTimeZone("GMT+00:00")
             }
         }
         datePicker.show(parentFragmentManager, TAG)
